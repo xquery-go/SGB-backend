@@ -51,9 +51,9 @@ class BaseModel(models.Model):
         abstract = True
 
 
-class BaseUserModel(BaseModel, AbstractBaseUser, PermissionsMixin):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+class BaseUserModel(BaseModel, AbstractBaseUser):
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
 
     is_staff = models.BooleanField(
         _("Is staff"),
