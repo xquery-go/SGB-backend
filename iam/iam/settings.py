@@ -43,7 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
 ]
+
+SUB_COMMANDS = ['initial_users',
+                ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

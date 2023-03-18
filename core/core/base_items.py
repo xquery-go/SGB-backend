@@ -1,35 +1,12 @@
-from django.db import models
+
+# from django.db import models
 from django.urls import re_path
-from django.utils.translation import gettext_lazy as _
+# from django.utils.translation import gettext_lazy as _
 from rest_framework import permissions
 
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-
-class BaseModel(models.Model):
-    CreatedBy = models.PositiveIntegerField(
-        _("Create by"),
-        null=True,
-        blank=True,
-    )
-    CreationTime = models.DateTimeField(
-        _("Time of Creation"),
-        auto_now_add=True,
-    )
-
-    class Meta:
-        abstract = True
-
-
-# class CustomAutoSchema(SwaggerAutoSchema):
-#     def get_tags(self, operation_keys=None):
-#         tags = self.overrides.get('tags', None) or getattr(self.view, 'my_tags', [])
-#         if not tags:
-#             tags = [operation_keys[0]]
-#
-#         return tags
-#
 
 class BaseSwagger:
     """
