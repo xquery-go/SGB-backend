@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from core import choices
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-GROUPS_ALLOWED
+GROUPS_ALLOWED = (choices.UserGroup.ADMIN,
+                  choices.UserGroup.BANK_STAFF,
+                  choices.UserGroup.BANK_STAFF_MANAGER
+                  )
 
 
 # Application definition

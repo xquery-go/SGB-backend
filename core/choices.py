@@ -1,167 +1,4 @@
 
-
-class Status:
-    HAS_ACCOUNT = 1
-    NO_ACCOUNT = 2
-    def choices(self):
-        return (
-            (self.HAS_ACCOUNT, 'Has Account'),
-            (self.NO_ACCOUNT, 'No Account'),
-        )
-
-
-class Duration:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class CreditHistory:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class Purpose:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class Amount:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class Savings:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class EmploymentDuration:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class InstallmentRate:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class PersonalStatusSex:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class OtherDebtors:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class PresentResidence:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class MostValuableProperty:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class Age:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class OtherInstallmentPlans:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class Housing:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class NumberCredits:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class Job:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class PeopleLiable:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class HasTelephone:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
-class IsForeignWorkerclass:
-
-    def choices(self):
-        return (
-            (),
-        )
-
-
 class UserGroup:
     VISITOR = 1
     BANK_STAFF = 2
@@ -170,12 +7,194 @@ class UserGroup:
     DEBTOR = 5
     ACCOUNT_HOLDER = 6
 
-    def choices(self):
+    @classmethod
+    def choices(cls):
         return (
-            (self.VISITOR, 'Visitor'),
-            (self.BANK_STAFF, 'Bank Staff'),
-            (self.BANK_STAFF_MANAGER, 'Bank Manager'),
-            (self.ADMIN, 'Administrator'),
-            (self.DEBTOR, 'Debtor'),
-            (self.ACCOUNT_HOLDER, 'Account Holder'),
+            (cls.VISITOR, 'Visitor'),
+            (cls.BANK_STAFF, 'Bank Staff'),
+            (cls.BANK_STAFF_MANAGER, 'Bank Manager'),
+            (cls.ADMIN, 'Administrator'),
+            (cls.DEBTOR, 'Debtor'),
+            (cls.ACCOUNT_HOLDER, 'Account Holder'),
         )
+
+
+class UserActiveStatus:
+    ACTIVE = 1
+    DEACTIVATED = 2
+    BLOCKED = 3
+    INACTIVE = 4
+
+    @classmethod
+    def choices(cls):
+        return (
+            (cls.ACTIVE, 'Active'),
+            (cls.DEACTIVATED, 'Deactivated'),
+            (cls.BLOCKED, 'Blocked'),
+            (cls.INACTIVE, 'Inactive'),
+        )
+
+
+class Status:
+    HAS_ACCOUNT = 1
+    NO_ACCOUNT = 2
+
+    @classmethod
+    def choices(cls):
+        return (
+            (cls.HAS_ACCOUNT, 'Has Account'),
+            (cls.NO_ACCOUNT, 'No Account'),
+        )
+
+
+class Duration:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class CreditHistory:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class Purpose:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class Amount:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class Savings:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class EmploymentDuration:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class InstallmentRate:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class PersonalStatusSex:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class OtherDebtors:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class PresentResidence:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class MostValuableProperty:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class Age:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class OtherInstallmentPlans:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class Housing:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class NumberCredits:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class Job:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class PeopleLiable:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class HasTelephone:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
+
+class IsForeignWorkerclass:
+
+    def choices(cls):
+        return (
+            (),
+        )
+
