@@ -6,12 +6,14 @@ from django.utils.translation import gettext_lazy as _
 from core import choices
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
+
 # Create your models here.
 
 
 class User(BaseUserModel):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
 
     UserId = models.BigAutoField(
         _('Id'),
@@ -48,6 +50,12 @@ class User(BaseUserModel):
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'username'
+
+    def has_perm(self, perm, obj=None):
+        return True
+
+    def has_module_perms(self, app_label):
+        return True
 
     class Meta:
         verbose_name = 'User'

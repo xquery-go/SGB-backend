@@ -2,7 +2,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from rest_framework import permissions
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 
 class CustomUserManager(BaseUserManager):
@@ -51,12 +51,12 @@ class BaseModel(models.Model):
         abstract = True
 
 
-class BaseUserModel(BaseModel, AbstractBaseUser):
+class BaseUserModel(BaseModel, AbstractBaseUser, PermissionsMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
     is_staff = models.BooleanField(
         _("Is staff"),
-    )
-    is_superuser = models.BooleanField(
-        _("Is superuser"),
     )
 
     class Meta:

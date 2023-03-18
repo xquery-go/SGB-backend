@@ -5,14 +5,17 @@ from django.core.management.commands.runserver import Command as RunserverComman
 
 class Command(RunserverCommand):
     help = 'Create a superuser if one does not already exist'
+    USER_DATA = (
+        ('admin.co', 'admin@admin.com', 'root'),
+        ('naruto', 'naruto@cakes.com', 'root'),
+    )
 
     def handle(self, *args, **options):
-        username = 'admin.co'
-        email = 'admin@admin.com'
-
-        try:
-            user = User.objects.get(username=username)
-            self.stdout.write(self.style.SUCCESS('Superuser already exists.'))
-        except User.DoesNotExist:
-            user = User.objects.create_superuser(username=username, email=email, password='root')
-            self.stdout.write(self.style.SUCCESS('Superuser created successfully.'))
+        for user in self.USER_DATA:
+            username, email, password = user
+            try:
+                User.objects.get(username=username)
+                self.stdout.write(self.style.SUCCESS('Superuser already exists.'))
+            except User.DoesNotExist:
+                User.objects.create_superuser(username=username, email=email, password=password)
+                self.stdout.write(self.style.SUCCESS('Superuser created successfully.'))
