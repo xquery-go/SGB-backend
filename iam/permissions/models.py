@@ -88,8 +88,8 @@ class Permission(BaseModel):
 
 
 class UserModulePermissions(BaseModel):
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+    User = models.ForeignKey(
+        'users.User',
         on_delete=models.CASCADE,
         related_name='module_permissions'
     )

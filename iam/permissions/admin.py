@@ -22,6 +22,6 @@ class PermissionAdmin(admin.ModelAdmin):
 @register(models.UserModulePermissions)
 class UserModulePermissionsAdmin(admin.ModelAdmin):
     list_display = (
-        'user',
+        'User',
     )
 
