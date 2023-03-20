@@ -1,11 +1,10 @@
-
 from django.db import models
 from django.contrib.auth.models import Permission
 from core.models import BaseModel, BaseUserModel
-from core.models import CustomUserManager
+from users.manager import CustomUserManager
 from django.utils.translation import gettext_lazy as _
 from core import choices
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import Group as ProjectGroup
@@ -17,9 +16,6 @@ from django.conf import settings
 
 
 class User(BaseUserModel):
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-
     UserId = models.BigAutoField(
         _('Id'),
         primary_key=True
@@ -32,7 +28,10 @@ class User(BaseUserModel):
         _('Username'),
         unique=True,
         max_length=500,
-    )
+        validators=[RegexValidator(regex=r'^[^@]*$',
+                                   message="Sorry, but use of '@' symbol is not allowed",
+                                   )]
+    )  # r'^.*@.*$' to put a condition that '@' MUST be present in the string
     ActiveStatus = models.PositiveSmallIntegerField(
         _('Active Status'),
         choices=choices.UserActiveStatus.choices(),
@@ -52,7 +51,7 @@ class User(BaseUserModel):
                     MaxValueValidator(limit_value=400)]
     )
 
-    objects = CustomUserManager()
+    # objects = CustomUserManager()
 
     USERNAME_FIELD = 'username'
 
@@ -117,14 +116,4 @@ class UserGroup(BaseModel):
         verbose_name = 'UserGroup'
         verbose_name_plural = 'UsersGroups'
         db_table = 'UserGroup'
-
-
-class CustomPermission(Permission):
-    user_permissions = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,
-        verbose_name=_('user permissions'),
-        blank=True,
-        related_name='custom_permissions'
-    )
-
 

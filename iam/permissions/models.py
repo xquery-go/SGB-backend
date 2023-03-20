@@ -51,57 +51,55 @@ class Permission(BaseModel):
         db_table = _('Permission')
 
 
-# class ModulePermission(BaseModel):
-#     ModulePermissionId = models.BigAutoField(
-#         _('Id'),
-#         primary_key=True
-#     )
-#     Title = models.CharField(
-#         _('Title'),
-#         max_length=255,
-#         null=True,
-#         blank=True
-#     )
-#     User = models.ForeignKey(
-#         'users.User',
-#         on_delete=models.CASCADE,
-#         related_name='UserModulesPermissions'
-#     )
-#     Module = models.ForeignKey(
-#         'Module',
-#         on_delete=models.CASCADE,
-#         related_name='ModulePermissions'
-#     )
-#     Permission = models.ForeignKey(
-#         'Permission',
-#         on_delete=models.CASCADE,
-#         related_name='ModulesPermission'
-#     )
-#
-#     def __str__(self):
-#         return f'{self.Title}'
-#
-#     class Meta:
-#         verbose_name = _('User Module Permission')
-#         verbose_name_plural = _('User Modules Permissions')
-#         db_table = 'UserModulePermission'
+class ModulePermission(BaseModel, Group):
+    ModulePermissionId = models.BigAutoField(
+        _('Id'),
+        primary_key=True
+    )
+    Title = models.CharField(
+        _('Title'),
+        max_length=255,
+        null=True,
+        blank=True
+    )
+    Module = models.ForeignKey(
+        'Module',
+        on_delete=models.CASCADE,
+        related_name='ModulePermissions'
+    )
+    Permission = models.ForeignKey(
+        'Permission',
+        on_delete=models.CASCADE,
+        related_name='ModulesPermission'
+    )
+
+    def __str__(self):
+        return f'{self.Title}'
+
+    class Meta:
+        verbose_name = _('Module Permission')
+        verbose_name_plural = _('Modules Permissions')
+        db_table = 'ModulePermission'
 
 
-class UserModulePermissions(BaseModel):
+class UserModulePermission(BaseModel):
+    UserModulePermissionId = models.BigAutoField(
+        _('Id'),
+        primary_key=True
+    )
     User = models.ForeignKey(
         'users.User',
         on_delete=models.CASCADE,
-        related_name='module_permissions'
+        related_name='UsersAuthModulePermission',
     )
-    groups = models.ManyToManyField(
-        Group,
-        verbose_name=_('user module groups'),
+    ModulePermission = models.ManyToManyField(
+        'ModulePermission',
         blank=True,
         help_text=_('The groups this user belongs to.'),
-        related_name='user_module_permissions'
+        related_name='UserAuthModulesPermissions',
     )
 
     class Meta:
-        verbose_name = _('User module permissions')
-        verbose_name_plural = _('User module permissions')
-        db_table = 'UserModulePermission'
+        verbose_name = _('User auth module permission')
+        verbose_name_plural = _('User auth module permissions')
+        db_table = 'UserAuthModulePermission'
