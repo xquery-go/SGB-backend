@@ -4,6 +4,4 @@ class ComputedProperty:
         self.getter = getter
 
     def __get__(self, instance, owner):
-        if instance is None:
-            return self
-        return self.getter(instance)
+        return self.getter(owner)

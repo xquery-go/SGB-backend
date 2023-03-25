@@ -34,7 +34,7 @@ class User(BaseUserModel):
     )  # r'^.*@.*$' to put a condition that '@' MUST be present in the string
     ActiveStatus = models.PositiveSmallIntegerField(
         _('Active Status'),
-        choices=choices.UserActiveStatus.choices(),
+        choices=choices.UserActiveStatus.choices,
         default=choices.UserActiveStatus.INACTIVE,
     )
     MobileNumber = models.CharField(
@@ -83,7 +83,7 @@ class Group(BaseModel):
     )
     ActiveStatus = models.PositiveSmallIntegerField(
         _('Active Status'),
-        choices=choices.UserActiveStatus.choices(),
+        choices=choices.UserActiveStatus.choices,
         default=choices.UserActiveStatus.ACTIVE,
     )
 

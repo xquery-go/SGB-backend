@@ -6,8 +6,6 @@ from core import choices
 
 class Command(RunserverCommand):
     help = 'Create a group if one does not already exist'
-    import ipdb
-    ipdb.set_trace()
     GROUP_DATA = (
         choices.UserGroup.choices[GROUPS_ALLOWED[0] - 1][1],
         choices.UserGroup.choices[GROUPS_ALLOWED[1] - 1][1],
