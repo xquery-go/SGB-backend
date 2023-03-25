@@ -1,4 +1,4 @@
-
+from core.base.miscellaneous import ComputedProperty
 class UserGroup:
     VISITOR = 1
     BANK_STAFF = 2
@@ -7,15 +7,15 @@ class UserGroup:
     DEBTOR = 5
     ACCOUNT_HOLDER = 6
 
-    @classmethod
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
-            (cls.VISITOR, 'Visitor'),
-            (cls.BANK_STAFF, 'Bank Staff'),
-            (cls.BANK_STAFF_MANAGER, 'Bank Manager'),
-            (cls.ADMIN, 'Administrator'),
-            (cls.DEBTOR, 'Debtor'),
-            (cls.ACCOUNT_HOLDER, 'Account Holder'),
+            (self.VISITOR, 'Visitor'),
+            (self.BANK_STAFF, 'Bank Staff'),
+            (self.BANK_STAFF_MANAGER, 'Bank Manager'),
+            (self.ADMIN, 'Administrator'),
+            (self.DEBTOR, 'Debtor'),
+            (self.ACCOUNT_HOLDER, 'Account Holder'),
         )
 
 
@@ -25,175 +25,175 @@ class UserActiveStatus:
     BLOCKED = 3
     INACTIVE = 4
 
-    @classmethod
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
-            (cls.ACTIVE, 'Active'),
-            (cls.DEACTIVATED, 'Deactivated'),
-            (cls.BLOCKED, 'Blocked'),
-            (cls.INACTIVE, 'Inactive'),
+            (self.ACTIVE, 'Active'),
+            (self.DEACTIVATED, 'Deactivated'),
+            (self.BLOCKED, 'Blocked'),
+            (self.INACTIVE, 'Inactive'),
         )
 
 
 class Status:
     HAS_ACCOUNT = 1
     NO_ACCOUNT = 2
-
-    @classmethod
-    def choices(cls):
+    
+    @ComputedProperty
+    def choices(self):
         return (
-            (cls.HAS_ACCOUNT, 'Has Account'),
-            (cls.NO_ACCOUNT, 'No Account'),
+            (self.HAS_ACCOUNT, 'Has Account'),
+            (self.NO_ACCOUNT, 'No Account'),
         )
 
 
 class Duration:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class CreditHistory:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class Purpose:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class Amount:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class Savings:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class EmploymentDuration:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class InstallmentRate:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class PersonalStatusSex:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class OtherDebtors:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class PresentResidence:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class MostValuableProperty:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class Age:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class OtherInstallmentPlans:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class Housing:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class NumberCredits:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class Job:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class PeopleLiable:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class HasTelephone:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
 
 
 class IsForeignWorkerclass:
-
-    def choices(cls):
+    @ComputedProperty
+    def choices(self):
         return (
             (),
         )
