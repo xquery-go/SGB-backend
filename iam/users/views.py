@@ -55,3 +55,22 @@ class UserView(GenericModelMixin):
             return Response({
                 'message': 'Invalid Request method, ensure it is a POST request.'
             })
+
+    @action(methods=['get'], url_path='get_user',
+            detail=True, )
+    def get_user_details(self, request, *args, **kwargs):
+        if request.method == 'GET':
+            token = request.COOKIES.get('jwt')
+            if not token:
+                raise AuthenticationFailed('Invalid token')
+
+            web_token = jwt.PyJWT()
+            try:
+                payload = web_token.decode(token, 'secret', algorithms=['HS256'])
+            except jwt.ExpiredSignatureError:
+                raise AuthenticationFailed('Token expired')
+
+            USER = models.User.objects.get(UserId=payload['pk'])
+            serializer = serializers.UserSerializer(USER)
+            return Response(serializer.data)
+
