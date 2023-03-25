@@ -14,5 +14,8 @@ TRANSACTIONS_SERVICE="TRANSACTIONS"
 
 #../iam/manage.py runserver ${IAM_PORT}
 
-gnome-terminal --tab --title=${IAM_SERVICE} -e "bash -c '../iam/manage.py runserver ${IAM_PORT}'"
-gnome-terminal --tab --title=${SOUTH_GERMAN_BANK_SERVICE} -e "bash -c '../iam/manage.py runserver ${SOUTH_GERMAN_BANK_PORT}'"
+gnome-terminal --tab --title=${IAM_SERVICE} -e "bash -c 'iam/manage.py runserver ${IAM_PORT}'"
+#gnome-terminal --tab --title=${SOUTH_GERMAN_BANK_SERVICE} -- "bash -c './SouthGermanBank/manage.py runserver ${SOUTH_GERMAN_BANK_PORT}'"
+
+#gnome-terminal --tab --title="Terminal 1" -e "bash -c 'command1'"
+#gnome-terminal --tab --title="Terminal 2" -e "bash -c 'command2'"
