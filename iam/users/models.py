@@ -51,7 +51,7 @@ class User(BaseUserModel):
                     MaxValueValidator(limit_value=400)]
     )
 
-    # objects = CustomUserManager()
+    objects = CustomUserManager()
 
     USERNAME_FIELD = 'username'
 
