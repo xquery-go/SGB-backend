@@ -2,9 +2,36 @@ version: '3'
 services:
   core:
     image: 'akatsuki:latest'
-#    command: bash -c "echo 'Starting core container'"
+    build: .
+    container_name: core
+    tty: true
     volumes:
-      - /core:/core
+      - ./core:/core
+    environment:
+      PYTHONWARNINGS: 'ignore'
+    restart: always
+
+
+  iam:
+    image: 'akatsuki:latest'
+    tty: true
+    container_name: iam
+    depends_on:
+      - core
+    volumes:
+      - /iam:/iam
+    environment:
+      PYTHONWARNINGS: 'ignore'
+    restart: always
+
+  sgb:
+    image: 'akatsuki:latest'
+    tty: true
+    container_name: sgb
+    depends_on:
+      - core
+    volumes:
+      - /SouthGermanBank:/SouthGermanBank
     environment:
       PYTHONWARNINGS: 'ignore'
     restart: always
