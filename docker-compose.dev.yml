@@ -1,0 +1,10 @@
+version: '3'
+services:
+  core:
+    image: 'akatsuki:latest'
+#    command: bash -c "echo 'Starting core container'"
+    volumes:
+      - /core:/core
+    environment:
+      PYTHONWARNINGS: 'ignore'
+    restart: always
