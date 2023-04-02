@@ -15,24 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
-
 from core.base_items import BaseSwagger
 
 from routers import router
-#
-#
-#
-# list(BaseSwagger.schema_view)
+from rendering_routers import router as rendering_router
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.get_urls()), name='api'),
     path('swagger/', include(BaseSwagger.urlpatterns)),
+    path('render/', include(rendering_router.get_urls()), name='render'),
 ]
-
-
-
-# path('signup/', sgbproject_views.employee_signup, name='signup'),
-# path('progress/',views.progress, name = 'progress'),
-# path('index/', views.index, name = 'index'),

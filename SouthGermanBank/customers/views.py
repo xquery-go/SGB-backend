@@ -1,13 +1,12 @@
 from rest_framework import permissions
 from rest_framework.decorators import action
-from rest_framework.viewsets import ModelViewSet
-
+from core.generics import GenericModelMixin
 from customers import serializers as customer_serializers
 from customers import models as customer_models
 
 
 # Create your views here.
-class CustomerViewSet(ModelViewSet):
+class CustomerViewSet(GenericModelMixin):
     """
     Automatically creates four methods of CRUD operations for customer's personal information as well as
     their credit risk parameters.

@@ -1,40 +1,44 @@
 from django.shortcuts import render
-# from django.contrib.auth.forms import UserCreationForm
-from django.views import View
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
+from rest_framework.decorators import action
+
 from .forms import StaffSignupClass
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from django.views.generic.base import TemplateView, RedirectView
+from core.generics import GenericModelMixin
+from django.contrib.auth import get_user_model
+from SGBproject import serializers
 
 
+class SGBView(GenericModelMixin):
 
+    queryset = get_user_model().objects.all()
+    serializer_class = serializers.UserSerializer
 
-#The very first page of the bank that seeks user login and allows all users to raise a customer support request
-def welcome(request):
-    return render(request, 'welcome login.html')
+    @action(methods=['get', 'post'],
+            url_path='welcome',
+            detail=False)
+    def welcome(self, request):
+        return render(request, 'welcome login.html')
 
+    @action(methods=['get', 'post'],
+            url_path='employee_signup',
+            detail=False)
+    def employee_signup(self, request):
+        if request.method == 'POST':
+            signup_form = StaffSignupClass(request.POST)
+            if signup_form.is_valid():
+                messages.success(
+                    request, 'Account created successfully!! '
+                             'Contact administrator/reporting manager for account privileges.'
+                )
+                signup_form.save()
+                return HttpResponse('OK', status=200)
+        else:
+            signup_form = StaffSignupClass()
 
-# def index(request):
-#     return render(request, 'index.html')
-
-
-#If the user (Employee) asks to signup
-def employee_signup(request):
-    if request.method == 'POST':
-        fm = StaffSignupClass(request.POST)
-        if fm.is_valid():
-            messages.success(request,'Account created successfully!! Contact administrator/reporting manager for account privileges.')
-            fm.save()
-    else:
-        fm = StaffSignupClass()
-        
-    return render(request, 'signup.html', {'form':fm})
-
-# def progress(request):
-#     return render(request, 'progress.html ')
-
+        return render(request, 'signup.html', {'form': signup_form})
 
 
 
