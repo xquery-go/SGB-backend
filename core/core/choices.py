@@ -37,16 +37,107 @@ class UserActiveStatus:
         )
 
 
-# class Status:
-#     HAS_ACCOUNT = 1
-#     NO_ACCOUNT = 2
-#
-#     @ComputedProperty
-#     def choices(self):
-#         return (
-#             (self.HAS_ACCOUNT, 'Has Account'),
-#             (self.NO_ACCOUNT, 'No Account'),
-#         )
+class Status:
+    HAS_ACCOUNT = 1
+    NO_ACCOUNT = 2
+
+    @ComputedProperty
+    def choices(self):
+        return (
+            (self.HAS_ACCOUNT, 'Has Account'),
+            (self.NO_ACCOUNT, 'No Account'),
+        )
+
+
+class CreditStatus:
+    LESS_THAN_ZERO = 1
+    ZERO_TO_200 = 2
+    MORE_THAN_200 = 3
+    NO_CHECKIN_ACCOUNT = 4
+
+    @ComputedProperty
+    def choices(self):
+        return (
+            (self.LESS_THAN_ZERO, '... <    0 DM'),
+            (self.ZERO_TO_200, '0 <= ... <  200 DM'),
+            (self.MORE_THAN_200, '... >= 200/salary assignments for at least 1 year'),
+            (self.NO_CHECKIN_ACCOUNT, 'no checking account')
+        )
+
+
+
+
+class CreditHistory:
+    NO_CREDIT = 0
+    ALL_AT_THIS_BANK_PAID = 1
+    HAS_CREDIT_DULY_PAID = 2
+    DELAY_IN_PAST = 3
+    CRITICAL_ACCOUNT = 4
+
+    @ComputedProperty
+    def choices(self):
+        return (
+            (self.NO_CREDIT, 'No Credits Taken/All Debts Duly Paid'),
+            (self.ALL_AT_THIS_BANK_PAID, 'All Credits At This Bank Paid Back Duly'),
+            (self.HAS_CREDIT_DULY_PAID, 'Existing credits paid back duly till now'),
+            (self.DELAY_IN_PAST, 'Delay in paying off in the past'),
+            (self.CRITICAL_ACCOUNT, 'Critical account/other credits existing(not at this bank)'),
+        )
+
+class Purpose:
+    @ComputedProperty
+    def choices(self):
+        return
+
+class Savings:
+    @ComputedProperty
+    def choices(self):
+        return
+
+class EmploymentDuration:
+    @ComputedProperty
+    def choices(self):
+        return
+
+class PersonalStatusSex:
+    @ComputedProperty
+    def choices(self):
+        return
+
+class OtherDebtors:
+    @ComputedProperty
+    def choices(self):
+        return
+
+class PropertyType:
+    @ComputedProperty
+    def choices(self):
+        return
+
+class OtherInstallmentPlans:
+    @ComputedProperty
+    def choices(self):
+        return
+
+class Housing:
+    @ComputedProperty
+    def choices(self):
+        return
+
+class Job:
+    @ComputedProperty
+    def choices(self):
+        return
+
+class Telephone:
+    @ComputedProperty
+    def choices(self):
+        return
+
+class ForeignWorker:
+    @ComputedProperty
+    def choices(self):
+        return
 
 
 # class Duration:

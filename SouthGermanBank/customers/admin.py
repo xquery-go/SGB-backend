@@ -3,11 +3,11 @@ from customers import models
 # Register your models here.
 
 
-class CustomerInformationInline(admin.StackedInline):
-    model = models.CustomerInformation
+class CustomerCreditRiskParameterInline(admin.StackedInline):
+    model = models.CustomerCreditRiskParameter
 
 
-@admin.register(models.CustomerCreditRiskParameters)
+@admin.register(models.Customer)
 class CustomerCreditRiskParametersAdmin(admin.ModelAdmin):
-    inlines = [CustomerInformationInline,
+    inlines = [CustomerCreditRiskParameterInline,
                ]

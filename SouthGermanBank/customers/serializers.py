@@ -1,23 +1,17 @@
 from customers import models
-from rest_framework import serializers
+from core.base import serializers
 
 
-class CustomerInformationSerializer(serializers.ModelSerializer):
-    """
-    This class is used to store the personal information of a customer.
-    """
+class CustomerCreditRiskParameterSerializer(serializers.BaseUserSerializer):
 
-    class Meta:
-        model = models.CustomerInformation
-        exclude = ('Customer',)
+    class Meta(serializers.BaseUserSerializer.Meta):
+
+        model = models.CustomerCreditRiskParameter
+        exclude = serializers.BaseUserSerializer.Meta.exclude
 
 
-class CustomerSerializer(serializers.ModelSerializer):
-    CustomerInformationSerializer(required=False, many=True)
+class CustomerSerializer(serializers.BaseUserSerializer):
+    CustomerCreditRiskParameters = CustomerCreditRiskParameterSerializer(many=True, required=False)
 
-    class Meta:
-        """
-        This class is used to store the personal information of a customer's credit risk parameters.
-        """
-        model = models.CustomerCreditRiskParameters
-        fields = '__all__'
+    class Meta(serializers.BaseUserSerializer.Meta):
+        model = models.Customer
