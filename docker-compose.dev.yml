@@ -19,10 +19,18 @@ services:
     depends_on:
       - core
     volumes:
-      - /iam:/iam
+      - ./iam:/iam
     environment:
       PYTHONWARNINGS: 'ignore'
     restart: always
+    command: >
+      bash -c "python manage.py makemigrations &&
+               python manage.py migrate &&
+               python manage.py runserver 0.0.0.0:8000"
+    working_dir: /iam
+    ports:
+      - '8000:8000'
+
 
   sgb:
     image: 'akatsuki:latest'
@@ -31,7 +39,14 @@ services:
     depends_on:
       - core
     volumes:
-      - /SouthGermanBank:/SouthGermanBank
+      - ./SouthGermanBank:/SouthGermanBank
     environment:
       PYTHONWARNINGS: 'ignore'
+    command: >
+      bash -c "python manage.py makemigrations &&
+               python manage.py migrate &&
+               python manage.py runserver 0.0.0.0:8001"
     restart: always
+    working_dir: /SouthGermanBank
+    ports:
+      - '8001:8001'
