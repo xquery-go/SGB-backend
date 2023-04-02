@@ -2,7 +2,8 @@ from rest_framework import permissions
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 
-from . import serializers, models
+from customers import serializers as customer_serializers
+from customers import models as customer_models
 
 
 # Create your views here.
@@ -11,15 +12,15 @@ class CustomerViewSet(ModelViewSet):
     Automatically creates four methods of CRUD operations for customer's personal information as well as
     their credit risk parameters.
     """
-    serializer_class = serializers.CustomerSerializer
-    queryset = models.CustomerCreditRiskParameters.objects.all()
+    queryset = customer_models.Customer.objects.all()
+    serializer_class = customer_serializers.CustomerSerializer
     permission_classes = [permissions.AllowAny]
 
     @action(
         methods=['get', 'post',
                  ],
         detail=True,
-        serializer_class=serializers.CustomerSerializer,
+        serializer_class=customer_serializers.CustomerSerializer,
         url_path='customer-analysis',
     )
     def analysis(self, request):

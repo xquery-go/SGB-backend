@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'drf_yasg',
     'visitors',
     'customers',
-    'core',
     ]
 
 MIDDLEWARE = [
