@@ -1,8 +1,8 @@
 <div align="center"> <h1>The South German Bank Web Application </h1> </div>
 <div align="left">
     Welcome to the South German Bank project.
-This project is currently based on monolithic architecture. but soon it will be migrated over to microservices 
-architecture with at least 2 microservices ie. :- <br><br> 1. Identity Access Management <br> 2. SouthGermanBank
+This project is being built on microservice architecture. 
+currently the focus is on 2 microservices ie. :- <br><br> 1. Identity Access Management <br> 2. SouthGermanBank
 
 <br>
 <h3>
@@ -34,7 +34,9 @@ Tasks
 
 4. Then will integrate blockchain for transactions on a separate microservice. 
 
-
 </h5>
-
-
+<h3>
+Dev Notes
+</h3>
+<br>
+Please read the System debugging IMPORTANT file on local machine to work with project.

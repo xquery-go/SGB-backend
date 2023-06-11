@@ -20,7 +20,7 @@ class CustomerViewSet(GenericModelMixin):
                  ],
         detail=True,
         serializer_class=customer_serializers.CustomerSerializer,
-        url_path='customer-analysis',
+        url_path='customer_analysis',
     )
     def analysis(self, request):
         """

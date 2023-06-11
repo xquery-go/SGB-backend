@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-import settings
+from django.conf import settings
 from users import serializers
 from users import models
 

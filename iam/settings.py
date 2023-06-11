@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'permissions',
+    # 'rest_framework.authtoken',
 ]
 
 SUB_COMMANDS = ['initial_users',
@@ -55,6 +56,7 @@ SUB_COMMANDS = ['initial_users',
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    # 'core.base.middlewares.TokenAuthenticationMiddleware', # It must be added after the sessions middleware
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsMiddleware',

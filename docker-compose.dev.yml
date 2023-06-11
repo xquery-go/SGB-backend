@@ -2,11 +2,15 @@ version: '3'
 services:
   core:
     image: 'akatsuki:latest'
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: core
     tty: true
     volumes:
       - ./core:/core
+    command: sh -c "pip install -e core_dir/core/"
+
     environment:
       PYTHONWARNINGS: 'ignore'
     restart: always

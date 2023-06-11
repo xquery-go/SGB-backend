@@ -6,6 +6,8 @@ from rest_framework import permissions
 
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.utils.translation import gettext_lazy as _
+from rest_framework.exceptions import NotAuthenticated
 
 
 class BaseSwagger:
@@ -35,3 +37,6 @@ class BaseSwagger:
     ]
 
 
+class TokenExpired(NotAuthenticated):
+    default_detail = _('Token Expired')
+    default_code = 'token_expired'
