@@ -1,0 +1,25 @@
+syntax = 'proto3';
+
+service User {
+  rpc list (ListRequest) returns (stream UserData) {}
+  rpc retrieve (UserRetrieveRequest) returns (UserData) {}
+  rpc authenticate_token (TokenVerificationRequest) returns (UserData) {}
+}
+
+message ListRequest {
+}
+
+message UserRetrieveRequest {
+  int64 UserId = 1;
+}
+
+message TokenVerificationRequest {
+  string Token = 1;
+}
+
+message UserData {
+  int64 UserId = 1;
+  string UserName = 2;
+  string EmailAddress = 3;
+}
+
