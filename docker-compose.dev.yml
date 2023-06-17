@@ -22,6 +22,7 @@ services:
     container_name: iam
     depends_on:
       - core
+#      - iam-service
     volumes:
       - ./iam:/iam
     environment:
@@ -34,6 +35,25 @@ services:
     working_dir: /iam
     ports:
       - '8000:8000'
+
+#  iam-service:
+#    image: 'akatsuki:latest'
+#    tty: true
+#    container_name: iam-service
+#    depends_on:
+#      - core
+#    volumes:
+#      - ./iam:/iam
+#    environment:
+#      PYTHONWARNINGS: 'ignore'
+#    restart: always
+#    command: >
+#      bash -c "python manage.py makemigrations &&
+#               python manage.py migrate &&
+#               python manage.py runserver 0.0.0.0:8000"
+#    working_dir: /iam
+#    ports:
+#      - '53001:53001'
 
 
   sgb:
