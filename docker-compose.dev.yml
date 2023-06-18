@@ -13,8 +13,7 @@ services:
 
     environment:
       PYTHONWARNINGS: 'ignore'
-    restart: always
-
+    restart: unless-stopped
 
   iam:
     image: 'akatsuki:latest'

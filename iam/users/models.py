@@ -13,6 +13,7 @@ from core import choices
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
+from django.contrib.auth.hashers import check_password, make_password
 
 from django.conf import settings
 

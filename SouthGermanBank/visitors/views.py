@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, QueryDict
 from django.views.generic.base import TemplateView, RedirectView

@@ -13,11 +13,31 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from django.utils.translation import gettext_lazy as _
+
 from routers import router
+from django.contrib.admin import AdminSite
+
+from iam import admin as django_admin_portal
+
+admin.site.login = django_admin_portal.CustomBackendLoginView.as_view(template_name='admin/SelfMade_Login.html')
+admin.site.site_header = _('IAM')
+
+# class CustomAdminSite(AdminSite):
+#     login_template = 'admin/login.html'
+#     site_header = gettext_lazy("IAM")
+#
+#
+# admin_site = CustomAdminSite()
+# admin.site = CustomAdminSite(name=admin_site.name)
+# admin.site.register(admin_site._registry)
 
 urlpatterns = [
+    # path('admin/', admin_site.urls),
     path('admin/', admin.site.urls),
     path('api/', include(router.get_urls()), name='api'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

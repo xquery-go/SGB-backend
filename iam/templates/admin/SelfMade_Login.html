@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+{% load static %}
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Welcome to South German Bank</title>
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--        {% comment %} -->
+        <link rel="stylesheet" type="text/css" href='{% static "css/styles.css"%}'>
+<!--        {% endcomment %}-->
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+        
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+
+        
+
+  
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+
+            <img src='{% static "images/logo1.png"%}' height='40px'>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <ul class="navbar-nav ml-auto">
+
+
+
+                    <li class="nav-item">
+
+                        <a class="nav-link" href=''>Customer Enquiry</a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a class="nav-link" href=''>Employee Login</a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a class="nav-link" href=''>Sign Up</a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </nav>
+
+
+      
+
+        <div class="jumbotron" >
+            <table class="table table table-striped">
+                <tr>
+                    <td class="col" style="padding: 2rem; max-width: 30%;">
+                        <img src='{% static "images/logo1.png" %}' />
+                    </td>
+                     <td class="col" style="padding: 2rem; margin-width: 40%;">
+                         <div class="heading " style="border-top: 2px solid #dee2e6; margin-right: 40%;">
+                              <h1 class="display-4">Welcome to South German Bank</h1>
+                         </div>
+                    </td>
+                    <td class="col" style="padding: 2rem; max-width: 30%;" >
+
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td class="col" style="padding: 2rem; max-width: 30%;">
+
+                    </td>
+                     <td class="col" style="padding: 2rem; margin-left: 4rem;" >
+                         <div class="heading" style="margin-left: 20%;" >
+                              <h4 class="heading">Lassen sie uns für sie sorgen</h4>
+                         </div>
+                    </td>
+                    <td class="col" style="padding: 2rem; max-width: 30%;" >
+
+                    </td>
+
+
+                </tr>
+
+
+
+
+
+
+
+            </table>
+                <div class="col">
+
+                </div>
+                <div class="heading_col" align="center">
+
+
+                    <h5 class="lead"></h5>
+                    <br><br>
+                    <h3 class="stie-stype">{{site_type|safe}}</h3>
+
+                    <br><br>
+                    <h3 class="helper-text">{{helper_text|safe}}</h3>
+
+                </div>
+                <div class="col">
+                    </div>
+            </div>
+        </div>
+
+<!--            {% comment %} <hr class="my-4">-->
+
+<!--            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>-->
+
+<!--            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> {% endcomment %}-->
+
+
+
+<hr>
+        <div class='main_login'>
+            <div class='box' align='center'>
+                <form class='login form' action='' method='POST' novalidate>
+                    {% csrf_token %}
+                    {% for fm in form %}
+                    {{fm.label_tag}} {{fm}} {{fm.errors|striptags}} <br><br>
+
+                    {% endfor %} <br>
+                    <button type='submit' class='btn btn-primary' > Login </button>
+                    
+
+
+                </form>
+            
+            
+            </div>
+
+        </div>
+
+        
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+        
+    </body>
+</html>
