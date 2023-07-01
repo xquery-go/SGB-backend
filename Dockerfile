@@ -4,7 +4,7 @@ ENV PYTHONUNBUFFERED 1
 
 RUN python --version
 
-WORKDIR /core_dir
+WORKDIR /core
 
 ADD ./core ./core
 ADD requirements.txt requirements.txt

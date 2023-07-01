@@ -13,3 +13,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
 }
+
+
+IAM_SERVER_ADDRESS_FOR_GRPC = '0.0.0.0:8000'
+SOUTH_GERMAN_BANK_SERVER_ADDRESS_FOR_GRPC = '0.0.0.0:8001'

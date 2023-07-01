@@ -9,8 +9,6 @@ services:
     tty: true
     volumes:
       - ./core:/core
-    command: sh -c "pip install -e core_dir/core/"
-
     environment:
       PYTHONWARNINGS: 'ignore'
     restart: unless-stopped

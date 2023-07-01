@@ -1,9 +1,9 @@
 
-from core.django_base import core_serializers
+from rest_framework import serializers
 from core.models import BaseModel
 
 
-class BaseUserSerializer(core_serializers.ModelSerializer):
+class BaseUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BaseModel
