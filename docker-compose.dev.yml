@@ -1,7 +1,7 @@
 version: '3'
 services:
   core:
-    image: 'akatsuki:latest'
+    image: 'sgb:latest'
     build:
       context: .
       dockerfile: Dockerfile
@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
 
   iam:
-    image: 'akatsuki:latest'
+    image: 'sgb:latest'
     tty: true
     container_name: iam
     depends_on:
@@ -34,7 +34,7 @@ services:
       - '8000:8000'
 
 #  iam-service:
-#    image: 'akatsuki:latest'
+#    image: 'sgb:latest'
 #    tty: true
 #    container_name: iam-service
 #    depends_on:
@@ -54,7 +54,7 @@ services:
 
 
   sgb:
-    image: 'akatsuki:latest'
+    image: 'sgb:latest'
     tty: true
     container_name: sgb
     depends_on:

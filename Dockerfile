@@ -11,4 +11,6 @@ ADD requirements.txt requirements.txt
 
 RUN pip install -U pip
 RUN pip install -r requirements.txt
-CMD ["python"]
+RUN pip install -e core/
+
+#CMD ["python"]
