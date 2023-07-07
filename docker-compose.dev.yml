@@ -13,13 +13,28 @@ services:
       PYTHONWARNINGS: 'ignore'
     restart: unless-stopped
 
+  iam-service:
+    image: 'sgb:latest'
+    tty: true
+    container_name: iam-service
+    depends_on:
+      - core
+    volumes:
+      - ./iam:/iam
+    environment:
+      PYTHONWARNINGS: 'ignore'
+    restart: always
+    working_dir: /iam
+    ports:
+      - '53001:53001'
+
   iam:
     image: 'sgb:latest'
     tty: true
     container_name: iam
     depends_on:
       - core
-#      - iam-service
+      - iam-service
     volumes:
       - ./iam:/iam
     environment:
@@ -32,26 +47,6 @@ services:
     working_dir: /iam
     ports:
       - '8000:8000'
-
-#  iam-service:
-#    image: 'sgb:latest'
-#    tty: true
-#    container_name: iam-service
-#    depends_on:
-#      - core
-#    volumes:
-#      - ./iam:/iam
-#    environment:
-#      PYTHONWARNINGS: 'ignore'
-#    restart: always
-#    command: >
-#      bash -c "python manage.py makemigrations &&
-#               python manage.py migrate &&
-#               python manage.py runserver 0.0.0.0:8000"
-#    working_dir: /iam
-#    ports:
-#      - '53001:53001'
-
 
   sgb:
     image: 'sgb:latest'

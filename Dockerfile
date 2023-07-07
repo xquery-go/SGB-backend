@@ -1,6 +1,5 @@
 FROM python:3.10 AS builder
 ENV PYTHONUNBUFFERED 1
-#RUN apt-get update && apt-get install -y python3.10
 
 RUN python --version
 
@@ -12,5 +11,3 @@ ADD requirements.txt requirements.txt
 RUN pip install -U pip
 RUN pip install -r requirements.txt
 RUN pip install -e core/
-
-#CMD ["python"]

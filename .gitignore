@@ -6,5 +6,6 @@ core/CORE.egg-info
 iam/users/management/commands/initial_groups.py
 iam/users/management/commands/initial_users.py
 iam/users/management/commands/runserver.py
+iam/db.sqlite3
 
 System debugging IMPORTANT
