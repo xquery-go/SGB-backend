@@ -1,6 +1,6 @@
 
 .idea
-
+venv
 core/CORE.egg-info
 
 iam/users/management/commands/initial_groups.py
