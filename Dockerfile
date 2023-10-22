@@ -8,6 +8,5 @@ WORKDIR /core
 ADD ./core ./core
 ADD requirements.txt requirements.txt
 
-RUN pip install -U pip
 RUN pip install -r requirements.txt
 RUN pip install -e core/

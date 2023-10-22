@@ -161,3 +161,6 @@ CORS_ALLOW_CREDENTIALS = True
 
 TOKEN_EXPIRATION_TIMEOUT = 60 * 60  # seconds
 COOKIE_EXPIRATION_TIMEOUT = 300  # seconds
+
+
+HS256_TOKEN_KEY = b'mna2496#42@!Kv!kweb234rw3fwadfas!@#$!@$%^RGSDYERB^RT&Udfgbsdfnmghe5tseryet7uRT&URTGS%T#$%^'

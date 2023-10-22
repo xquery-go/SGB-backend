@@ -1,23 +1,25 @@
 import datetime
+import time
+
+import jwt
+from django.conf import settings
+from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
+from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
-import jwt
-from django.db import models
-from django.utils import timezone
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.exceptions import ValidationError as DRFValidationError
+
+from core import choices
 from core.base.exceptions import TokenExpired
 from core.models import BaseModel, BaseUserModel
 from users.manager import CustomUserManager
-from django.utils.translation import gettext_lazy as _
-from core import choices
-from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
-from django.db.models.signals import post_save, pre_save
-from django.dispatch import receiver
-from django.contrib.auth.hashers import check_password, make_password
 
-from django.conf import settings
-
-
+from jwt.exceptions import JWTDecodeError
 # Create your models here.
 
 
@@ -66,61 +68,57 @@ class User(BaseUserModel):
         username = kwargs.get('username')
         password = kwargs.get('password')
         USER = cls.objects.get(username=username)
+
         if USER is None:
             raise AuthenticationFailed('Username not found')
         if not USER.check_password(password):
             raise AuthenticationFailed('Incorrect Credentials Please check your password')
 
+        token = cls.generate_token(USER)
+        return token
+
+    @classmethod
+    def generate_token(cls, user):
+        creation_time = datetime.datetime.now(timezone.utc)
+        expiry_time = creation_time + datetime.timedelta(seconds=settings.TOKEN_EXPIRATION_TIMEOUT)
         payload = {
-            'pk': USER.pk,
-            'exp': timezone.now() + datetime.timedelta(settings.TOKEN_EXPIRATION_TIMEOUT),
-            'iat': timezone.now()
+            'pk': user.pk,
+            'exp': int(expiry_time.timestamp()),
+            'iat': int(creation_time.timestamp()),
         }
 
-        web_token = jwt.PyJWT()
-        token = web_token.encode(payload=payload, key='secret', algorithm='HS256')
-        return
+        jwt_instance = jwt.JWT()
+        key = jwt.jwk.OctetJWK(key=settings.HS256_TOKEN_KEY)
+        token = jwt_instance.encode(payload=payload, key=key, alg='HS256')
+        return token
 
-    def is_token_valid(self, token):
+    @classmethod
+    def is_token_valid(cls, token):
         """
         Checks if a given token is valid for the user.
         """
         try:
-            token_obj = UserToken.objects.get(key=token)
-            if token_obj:
-                if token_obj.ExpiresAt >= timezone.now():
-                    TokenAuthentication().authenticate_credentials(token)
-                elif token_obj.ExpiresAt < timezone.now():
-                    raise TokenExpired
-        except (UserToken.DoesNotExist, AuthenticationFailed, TokenExpired):
-            return False
-        return token_obj.user == self
+            result = cls.get_token_details(token)
+        except Exception:
+            result = None
+        if result:
+            return True
+        return False
 
-    def get_or_create_token(self):
+    @classmethod
+    def get_token_details(cls, token):
         """
         Use Wisely
         """
+        octet_key_instance = jwt.jwk.OctetJWK(key=settings.HS256_TOKEN_KEY)
+        sliced_token = token.split('.')
+        if len(sliced_token) != 3:
+            raise AuthenticationFailed('Invalid token')
         try:
-            token = UserToken.objects.get(user=self)
-        except UserToken.DoesNotExist:
-            token = UserToken.objects.create(
-                user=self,
-                ExpiresAt=timezone.now() + datetime.timedelta(seconds=settings.TOKEN_EXPIRATION_TIMEOUT)
-            )
-        return token
-
-    def refresh_user_token(self):
-        """
-        Use Wisely
-        """
-        try:
-            token = UserToken.objects.get(user=self)
-        except UserToken.DoesNotExist:
-            token = UserToken.objects.create(
-                user=self,
-                ExpiresAt=timezone.now() + datetime.timedelta(seconds=settings.TOKEN_EXPIRATION_TIMEOUT)
-            )
-        return token.save()
+            result = jwt.JWT().decode(token, key=octet_key_instance, algorithms=['HS256'])
+        except JWTDecodeError:
+            raise AuthenticationFailed('Given token either invalid or expired')
+        return result
 
     def has_perm(self, perm, obj=None):
         return True
@@ -183,18 +181,3 @@ class UserGroup(BaseModel):
         verbose_name = 'UserGroup'
         verbose_name_plural = 'UsersGroups'
         db_table = 'UserGroup'
-
-
-class UserToken(Token):
-    ExpiresAt = models.DateTimeField(
-        _('Expires at'),
-    )
-
-    @staticmethod
-    @receiver(pre_save, sender='users.UserToken')
-    def add_expiration_time(sender, instance, **kwargs):
-        if instance.pk:
-            old_instance = sender.objects.get(pk=instance.pk)
-            if old_instance.key != instance.key:
-                instance.ExpiresAt = timezone.now() + datetime.timedelta(seconds=settings.TOKEN_EXPIRATION_TIMEOUT)
-

@@ -1,9 +1,13 @@
-from rest_framework import generics, status
-from rest_framework.viewsets import ViewSetMixin
+from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
-from django.core.exceptions import FieldDoesNotExist
-from rest_framework.settings import api_settings
+
+from core.base.responses import response
 
 
 class GenericModelMixin(ModelViewSet):
-    pass
+    def response(self, data=None, exception=None, status=None,
+                 template_name=None, headers=None, content_type=None
+                 ):
+        response_instance = response(data=data, exception=exception, status=status,
+                                     template_name=template_name, headers=headers, content_type=content_type)
+        return response_instance
