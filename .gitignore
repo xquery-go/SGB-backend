@@ -11,5 +11,5 @@ iam/db.sqlite3
 iam/.env
 System debugging IMPORTANT
 
-#*/__pycache__
-#*.pyc
+*/__pycache__
+*.pyc
