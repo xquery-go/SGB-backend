@@ -15,16 +15,17 @@
 <u>Tasks in line</u> :
 </h5>
 
-1. I have to enable User login (from User model) as well as admin login (Auth.user model).
+1. I have to enable User login (from User model) as well as admin login (Auth.user model). <b>DONE</b>
 <br><br>
 
-2. To create a token based authentication (bearer token).
+2. To create a token based authentication (bearer token). <b>DONE</b>
 <br><br>
 
-3. Then will be containerising this whole project.
+3. Then will be containerising this whole project. <b>DONE</b>
 <br><br>
-
-4. Then will integrate blockchain for transactions on a separate microservice. 
+4. To create GRPC server and service reflection to use IAM authentication middleware for other microservice 
+<br><br>
+ 
 
 
 

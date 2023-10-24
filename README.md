@@ -23,16 +23,11 @@ Tasks
 </h3>
 <h5>
 
-1. In the coming time I will be uploading a django project for payments which will handle all the payment transactions since it is a high velocity and high veracity data.
+1. Create a GRPC reflection for IAM and SGB microservices so that each service can communicate using the reflection.
 <br><br>
 
-2. Next task will be to separate these modules into separate microservices using gRPC and protocol buffers and move the solution on a different branch. 
+2. Creation of message queue system to make microservices (excluding IAM) less coupled.
 <br><br>
-
-3. Then will be containerising this whole project.
-<br><br>
-
-4. Then will integrate blockchain for transactions on a separate microservice. 
 
 </h5>
 <h3>
