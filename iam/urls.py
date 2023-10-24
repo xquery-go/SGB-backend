@@ -20,9 +20,8 @@ from django.urls import path, include
 from django.utils.translation import gettext_lazy as _
 
 from routers import router
-from django.contrib.admin import AdminSite
 
-from iam import admin as django_admin_portal
+import admin as django_admin_portal
 
 admin.site.login = django_admin_portal.CustomBackendLoginView.as_view(template_name='admin/SelfMade_Login.html')
 admin.site.site_header = _('IAM')

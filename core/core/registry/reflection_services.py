@@ -1,18 +1,23 @@
 from concurrent import futures
 import grpc
+import grpc_reflection.v1alpha.reflection as reflection
 
-from grpc_reflection.v1alpha import reflection
-from project_a import your_proto_file_a_pb2_grpc
 
-server = grpc.server(futures.ThreadPoolExecutor())
+def serve():
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    your_proto_file_pb2_grpc.add_YourServiceServicer_to_server(YourService(), server)
 
-your_proto_file_a_pb2_grpc.add_YourServiceServicer_to_server(
-    YourServiceImplementationA(), server
-)
+    # Enable gRPC reflection
+    SERVICE_NAMES = (
+        your_proto_file_pb2.DESCRIPTOR.services_by_name['YourService'].full_name,
+        reflection.SERVICE_NAME,
+    )
+    reflection.enable_server_reflection(SERVICE_NAMES, server)
 
-SERVICE_NAMES = (
-    your_proto_file_a_pb2.DESCRIPTOR.services_by_name['YourService'].full_name,
-)
-reflection.enable_server_reflection(SERVICE_NAMES, server)
-server.add_insecure_port('[::]:50051')  # You can specify the desired port
-server.start()
+    server.add_insecure_port('[::]:50051')
+    server.start()
+    server.wait_for_termination()
+
+
+if __name__ == '__main__':
+    serve()

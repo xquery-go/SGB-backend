@@ -26,7 +26,7 @@ services:
     restart: always
     working_dir: /iam
     ports:
-      - '53001:53001'
+      - '50051:50051'
 
   iam:
     image: 'sgb:latest'
@@ -55,7 +55,7 @@ services:
     depends_on:
       - core
     volumes:
-      - ./SouthGermanBank:/SouthGermanBank
+      - ./sgb:/sgb
     environment:
       PYTHONWARNINGS: 'ignore'
     command: >
@@ -63,6 +63,6 @@ services:
                python manage.py migrate &&
                python manage.py runserver 0.0.0.0:8001"
     restart: always
-    working_dir: /SouthGermanBank
+    working_dir: /sgb
     ports:
       - '8001:8001'

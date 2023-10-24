@@ -10,3 +10,6 @@ iam/db.sqlite3
 */.env
 iam/.env
 System debugging IMPORTANT
+
+#*/__pycache__
+#*.pyc

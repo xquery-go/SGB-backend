@@ -83,7 +83,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'iam.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -101,7 +101,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'iam.authentication.IAMJWTAuthentication',
+        'authentication.IAMJWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     )
 }
@@ -153,13 +153,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Add Custom authentications
 AUTHENTICATION_BACKENDS = [
-    'iam.backends.CustomAuthBackend',
+    'backends.CustomAuthBackend',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-TOKEN_EXPIRATION_TIMEOUT = 60 * 60  # seconds
+TOKEN_EXPIRATION_TIMEOUT = 60 * 60  # seconds for dev
 COOKIE_EXPIRATION_TIMEOUT = 300  # seconds
 
 
