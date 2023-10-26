@@ -6,10 +6,13 @@ core/CORE.egg-info
 iam/users/management/commands/initial_groups.py
 iam/users/management/commands/initial_users.py
 iam/users/management/commands/runserver.py
-iam/db.sqlite3
+*.sqlite3
 */.env
 iam/.env
 core/core/base/__pycache__
 */*/__pycache__
 */__pycache__
 *.pyc
+*.log
+*.pot
+__pycache__/

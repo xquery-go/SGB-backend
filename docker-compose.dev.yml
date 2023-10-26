@@ -5,19 +5,6 @@ services:
     build: .
     tty: true
 
-#  core:
-#    image: 'sgb:latest'
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    container_name: core
-#    tty: true
-#    volumes:
-#      - ./core:/core
-#    environment:
-#      PYTHONWARNINGS: 'ignore'
-#    restart: unless-stopped
-
   iam-service:
     image: 'banking:latest'
     tty: true
