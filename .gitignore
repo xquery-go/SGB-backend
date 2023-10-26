@@ -9,7 +9,7 @@ iam/users/management/commands/runserver.py
 iam/db.sqlite3
 */.env
 iam/.env
-System debugging IMPORTANT
-
+core/core/base/__pycache__
+*/*/__pycache__
 */__pycache__
 *.pyc

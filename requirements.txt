@@ -5,7 +5,8 @@ django-pandas==0.6.6
 djangorestframework>=3.13.1
 djangorestframework-simplejwt==5.2.2
 drf-yasg>=1.21.4
-grpcio==1.51.1
+grpcio>=1.51.1
+grpcio-health-checking==1.59.0
 grpcio-reflection==1.51.1
 grpcio-tools==1.51.1
 icecream==2.1.3

@@ -1,0 +1,27 @@
+# If the dockerdaemon doesnt run properly
+        sudo systemctl enable docker
+        sudo service docker stop
+        sudo rm -rf /var/run/docker.pid
+        sudo rm -rf /var/lib/docker/volumes/metadata.db
+        sudo dockerd
+
+        -------------------> This usually runs the docker daemon and the PROJECT no need to use runserver
+
+ ================================================================
+
+# If pycharm doesnt recognize the packages, imports etc
+        include the core and the project_repo/microservice
+        reload interpreter
+
+# Admin user creds :-
+    FOR IAM --> (admin.co, root)
+    or you can find the data through shell.
+
+# For creating a new grpc proto (in IAM)
+python -m  grpc_tools.protoc -I ./ --python_out=../grpc_protos --pyi_out=../grpc_protos --grpc_python_out=../grpc_protos User.proto
+    Later on the command was changed to:-
+    after creating generated_grpc folder and cd into grpc_protos folder where the proto file is present
+    ->    python -m  grpc_tools.protoc -I ./ --python_out=../generated_grpc --pyi_out=../generated_grpc --grpc_python_out=../generated_grpc User.proto
+
+
+

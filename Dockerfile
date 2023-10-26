@@ -10,6 +10,8 @@ COPY ./requirements.txt ../application
 
 RUN pip install -r requirements.txt
 
+COPY ./core ./application
+
 COPY . /application
 
 RUN pip install -e core/

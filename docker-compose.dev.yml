@@ -1,24 +1,27 @@
 version: '3'
 services:
-  core:
-    image: 'sgb:latest'
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: core
+  banking:
+    image: 'banking:latest'
+    build: .
     tty: true
-    volumes:
-      - ./core:/core
-    environment:
-      PYTHONWARNINGS: 'ignore'
-    restart: unless-stopped
+
+#  core:
+#    image: 'sgb:latest'
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: core
+#    tty: true
+#    volumes:
+#      - ./core:/core
+#    environment:
+#      PYTHONWARNINGS: 'ignore'
+#    restart: unless-stopped
 
   iam-service:
-    image: 'sgb:latest'
+    image: 'banking:latest'
     tty: true
-    container_name: iam-service
-    depends_on:
-      - core
+    container_name: banking-iam-service
     volumes:
       - ./iam:/iam
     environment:
@@ -29,11 +32,10 @@ services:
       - '50051:50051'
 
   iam:
-    image: 'sgb:latest'
+    image: 'banking:latest'
     tty: true
-    container_name: iam
+    container_name: banking-iam
     depends_on:
-      - core
       - iam-service
     volumes:
       - ./iam:/iam
@@ -49,11 +51,11 @@ services:
       - '8000:8000'
 
   sgb:
-    image: 'sgb:latest'
+    image: 'banking:latest'
     tty: true
-    container_name: sgb
+    container_name: banking-sgb
     depends_on:
-      - core
+      - iam-service
     volumes:
       - ./sgb:/sgb
     environment:
