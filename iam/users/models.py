@@ -1,25 +1,19 @@
 import datetime
-import time
 
 import jwt
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.db import models
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.authtoken.models import Token
+from jwt.exceptions import JWTDecodeError
 from rest_framework.exceptions import AuthenticationFailed
-from rest_framework.exceptions import ValidationError as DRFValidationError
 
 from core import choices
-from core.base.exceptions import TokenExpired
 from core.models import BaseModel, BaseUserModel
 from users.manager import CustomUserManager
 
-from jwt.exceptions import JWTDecodeError
+
 # Create your models here.
 
 

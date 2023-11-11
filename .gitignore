@@ -9,9 +9,6 @@ iam/users/management/commands/runserver.py
 *.sqlite3
 */.env
 iam/.env
-core/core/base/__pycache__
-*/*/__pycache__
-*/__pycache__
 *.pyc
 *.log
 *.pot

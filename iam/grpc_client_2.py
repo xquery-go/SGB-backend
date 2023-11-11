@@ -3,10 +3,13 @@ import ipdb
 
 from google.protobuf.descriptor_pool import DescriptorPool
 import grpc
+from grpc_reflection.v1alpha import reflection_pb2, reflection_pb2_grpc
 from grpc_reflection.v1alpha.proto_reflection_descriptor_database import (
     ProtoReflectionDescriptorDatabase,
 )
 from grpc_reflection.v1alpha.reflection import ReflectionServicer
+
+from generated_grpc import User_pb2
 
 
 def run():
@@ -18,8 +21,7 @@ def run():
 
         desc_pool = DescriptorPool(reflection_db)
 
-        ipdb.set_trace()
-        service_desc = desc_pool.FindServiceByName("User")
+        service_desc = desc_pool.FindServiceByName("grpc.reflection.v1alpha.ServerReflection")
         print(f"found Greeter service with name: {service_desc.full_name}")
         for methods in service_desc.methods:
             print(f"found method name: {methods.full_name}")
@@ -32,34 +34,45 @@ def run():
         print(f"found request name: {request_desc.full_name}")
 
 
-def run2():
-    import grpc
-    from grpc_reflection.v1alpha import reflection_pb2_grpc as _reflection_pb2_grpc
-    from grpc_reflection.v1alpha import reflection_pb2 as _reflection_pb2
+def run2(service_name: str, method_name: str):
+    with grpc.insecure_channel("iam-service:50051") as channel:
+        stub = reflection_pb2_grpc.ServerReflectionStub(channel)
 
-    channel = grpc.insecure_channel("iam-service:50051")
-    stub = _reflection_pb2_grpc.ServerReflectionStub(channel)
-    # Ask the server for the list of available services
-    list_services_response = stub.ServerReflectionInfo
-    ipdb.set_trace()
+        # Use reflection to find the 'list' method of the 'User' service
+        list_request = reflection_pb2.ServerReflectionRequest(
+            file_by_filename=service_name,
+            file_containing_symbol=method_name,
+        )
+        list_response = stub.ServerReflectionInfo(iter([list_request]))
 
-    # Iterate through the services and their methods
-    for service_name in list_services_response.service:
-        print(f"Service: {service_name}")
-        service_request = descriptor_pb2.ServiceDescriptorProto(name=service_name)
-        service_response = stub.FileContainingSymbol(service_request)
-        service_descriptor = descriptor_pb2.FileDescriptorProto()
-        service_response.file.CopyToProto(service_descriptor)
-        pool = descriptor_pool.DescriptorPool()
-        pool.Add(service_descriptor)
-        service_descriptor = pool.FindServiceByName(service_name)
-        for method in service_descriptor.methods:
-            print(f"  Method: {method.name}")
-            print(f"    Input Type: {method.input_type.name}")
-            print(f"    Output Type: {method.output_type.name}")
+        # Extract the method descriptor
+        for response in list_response:
+            method_descriptor = None
+            if response.file_descriptor_response.file_descriptor_proto:
+                for file_proto in response.file_descriptor_response.file_descriptor_proto:
+                    for service_proto in file_proto.service:
+                        if service_proto.name == service_name:
+                            for method_proto in service_proto.method:
+                                if method_proto.name == method_name:
+                                    method_descriptor = method_proto
+                                    break
+                            if method_descriptor:
+                                break
+                    if method_descriptor:
+                        break
+                if method_descriptor:
+                    break
+
+                if not method_descriptor:
+                    print(f"Method '{method_name}' not found in service '{service_name}'")
+                    return
+
+        # Create a request message and invoke the 'list' method
+        list_request = User_pb2.ListRequest()  # Customize request data
+        # response = stub.InvokeRpcCall(method_descriptor, list_request.SerializeToString())
+
+        # Handle the response (deserialize the response bytes into ListResponse message)
+        return User_pb2.UserData.FromString(response.SerializeToString())
 
 
-if __name__ == "__main__":
-    logging.basicConfig()
-    run()
     # run2()

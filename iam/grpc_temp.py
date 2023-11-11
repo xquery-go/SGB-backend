@@ -1,16 +1,24 @@
 # add the following import statement to use server reflection
+import os
 from concurrent import futures
-from generated_grpc import User_pb2_grpc
-from generated_grpc import User_pb2
-import grpc
-from grpc_reflection.v1alpha import reflection
-import ipdb
-from grpc_health.v1.health_pb2 import HealthCheckResponse
-from grpc_health.v1 import health_pb2_grpc
-from grpc_health.v1 import health
 
+import grpc
+from grpc_health.v1 import health
+from grpc_health.v1 import health_pb2_grpc
+from grpc_health.v1.health_pb2 import HealthCheckResponse
 from grpc_reflection.v1alpha import reflection
+
+from generated_grpc import User_pb2
+from generated_grpc import User_pb2_grpc
 from users import models as user_models
+
+# from django.conf import settings
+
+# Set the DJANGO_SETTINGS_MODULE environment variable
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
+
+# Configure Django settings
+# settings.configure()
 
 
 class UserServicer(User_pb2_grpc.UserServicer):
