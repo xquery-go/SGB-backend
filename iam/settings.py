@@ -40,6 +40,7 @@ GROUPS_ALLOWED = (choices.UserGroup.ADMIN,
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'rest_framework_simplejwt',
     'corsheaders',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -47,7 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'permissions',
-    # 'rest_framework.authtoken',
 ]
 
 SUB_COMMANDS = ['initial_users',
