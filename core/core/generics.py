@@ -1,10 +1,10 @@
 from rest_framework import status
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import GenericViewSet
 
 from core.base.responses import response
 
 
-class GenericModelMixin(ModelViewSet):
+class GenericModelMixin(GenericViewSet):
     def response(self, data=None, exception=None, status=None,
                  template_name=None, headers=None, content_type=None
                  ):

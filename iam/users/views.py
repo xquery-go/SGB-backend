@@ -1,42 +1,62 @@
-from django.shortcuts import render
-
 from django.conf import settings
-from rest_framework import status as rest_status
-
-from users import serializers
-from users import models
-
-from core.generics import GenericModelMixin
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import status as rest_status, permissions
 from rest_framework.decorators import action
 from rest_framework.exceptions import AuthenticationFailed
-import datetime
-import jwt
-from django.utils import timezone
+
+from core.generics import GenericModelMixin
+from tokens.base_tokens import BaseRefreshToken
+from users import serializers
+from users.models import User
+
 
 # Create your views here.
 
 
 class UserView(GenericModelMixin):
-    queryset = models.User.objects.all()
+    queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
 
-    token_timeout = settings.TOKEN_EXPIRATION_TIMEOUT
-
-    @action(methods=['post'], url_path='login',
+    @action(methods=['POST'], url_path='logout',
             detail=False, permission_classes=())
     def login(self, request):
+        return self.response({'message': 'You have logged out successfully.'})
+
+    @action(methods=['post'], url_path='refresh',
+            detail=False, permission_classes=())
+    def login(self, request):
+        return self.response({'message': 'You have logged out successfully.'})
+
+
+class AuthView(GenericModelMixin):
+    permission_classes = (permissions.AllowAny,)
+
+    queryset = User.objects.all()
+    serializer_class = serializers.UserSerializer
+
+    @action(methods=['POST'], url_path='login',
+            detail=False,)
+    def login(self, request, *args, **kwargs):
         data = request.data
-        username = data['username']
-        password = data['password']
+        username = str(data['username'])
+        password = str(data['password'])
 
-        USER = models.User.objects.get(username=username)
-        if USER is None:
-            raise AuthenticationFailed('Username not found')
+        try:
+            USER = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise AuthenticationFailed('Incorrect Credentials.')
         if not USER.check_password(password):
-            raise AuthenticationFailed('Incorrect Credentials Please check your password')
+            raise AuthenticationFailed(' Please check your password')
 
-        token = models.User.generate_token(USER)
+        refresh = BaseRefreshToken()
+
         serializer = self.get_serializer(USER)
         data = serializer.data
-        data['token'] = token
+        data['refresh_token'] = refresh.for_user(USER)  # Query is run to create a new refresh token
+        data['access_token'] = data['refresh_token'].access_token  # Query is run to create a new refresh token
         return self.response(data=data, status=rest_status.HTTP_200_OK)
+
+    @action(methods=['POST'], url_path='logout',
+            detail=False, permission_classes=())
+    def login(self, request):
+        return self.response({'message': 'You have logged out successfully.'})
