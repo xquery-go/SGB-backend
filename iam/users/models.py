@@ -6,7 +6,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator, RegexVa
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from jwt.exceptions import JWTDecodeError
+# from jwt.exceptions import JWTDecodeError
 from rest_framework.exceptions import AuthenticationFailed
 
 from core import choices

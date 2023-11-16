@@ -12,7 +12,6 @@ from users.models import User
 
 # Create your views here.
 
-
 class UserView(GenericModelMixin):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
@@ -30,13 +29,16 @@ class UserView(GenericModelMixin):
 
 class AuthView(GenericModelMixin):
     permission_classes = (permissions.AllowAny,)
-
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
 
+    def get_authenticate_header(self, request):
+        ret = super().get_authenticate_header(request)
+        return ret
+
     @action(methods=['POST'], url_path='login',
             detail=False,)
-    def login(self, request, *args, **kwargs):
+    def authenticate(self, request, *args, **kwargs):
         data = request.data
         username = str(data['username'])
         password = str(data['password'])
