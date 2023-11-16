@@ -32,13 +32,6 @@ class Command(BaseCommand):
             '--max-workers', type=int, default=10, dest='max_workers',
             help='Number of maximum worker threads.'
         )
-        parser.add_argument(
-            '--prod', action='store_true', dest='production_mode',
-            help=(
-                'Run the server in development mode. This tells Django to use '
-                'the auto-reloader and run checks.'
-            )
-        )
 
     def handle(self, *args, **options):
 
