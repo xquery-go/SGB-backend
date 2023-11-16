@@ -14,11 +14,15 @@ from datetime import timedelta
 from pathlib import Path
 from core import choices
 from core.base_settings import *
+from core.messagbus.registry import RegistryCollection
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 
+#GRPC registration
+handler = RegistryCollection()
+handler.register('users.User')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
