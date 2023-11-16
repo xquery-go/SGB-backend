@@ -13,7 +13,6 @@ from users import models
 #         'Group',
 #     )
 
-
 @register(models.User)
 class UserModelAdmin(admin.ModelAdmin):
     list_display = (

@@ -54,8 +54,9 @@ class AuthView(GenericModelMixin):
 
         serializer = self.get_serializer(USER)
         data = serializer.data
-        data['refresh_token'] = refresh.for_user(USER)  # Query is run to create a new refresh token
-        data['access_token'] = data['refresh_token'].access_token  # Query is run to create a new refresh token
+        user_token = refresh.for_user(USER)
+        data['refresh_token'] = str(user_token)  # Query is run to create a new refresh token
+        data['access_token'] = str(user_token.access_token)  # Query is run to create a new refresh token
         return self.response(data=data, status=rest_status.HTTP_200_OK)
 
     @action(methods=['POST'], url_path='logout',

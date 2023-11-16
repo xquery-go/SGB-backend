@@ -5,9 +5,6 @@ from django.contrib.auth.models import User, Group
 from users.models import User as iam_user
 from django.contrib import admin
 
-admin.site.unregister(User)
-admin.site.unregister(Group)
-
 
 class CustomAuthBackend(BaseBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
