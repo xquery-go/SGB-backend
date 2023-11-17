@@ -3,6 +3,9 @@ import re
 
 from django.core.management.base import BaseCommand
 from django.utils.regex_helper import _lazy_re_compile
+from django.conf import settings
+from ...registry import RegistryCollection
+from ...server import Server
 
 naiveip_re = _lazy_re_compile(r"""^(?:
 (?P<ipv6>\[[a-fA-F0-9:]+\])
@@ -28,5 +31,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         print(f"Starting gRPC server at {options['address']}")
-
+        handler = settings.HANDLER
+        grpc_server_object = Server()
+        grpc_server_object._server()
+        handler.registry_collection(grpc_server_object._server())
+        grpc_server_object.run(f'{self.default_addr}:{self.default_port}')
 

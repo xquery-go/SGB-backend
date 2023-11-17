@@ -59,9 +59,9 @@ class Server:
             self.__server.add_insecure_port(port)
 
     def run(self, port):
-        self.handler.registry_collection(
-            self.__server,
-        )
+        # self.handler.registry_collection(
+        #     self.__server,
+        # )
         self.add_port(port)
         self.start_server()
 
@@ -78,7 +78,7 @@ class BaseAbstractService(ABC):
         pass
 
     @abstractmethod
-    def get_add_servicer_method(self):
+    def get_add_servicer_method(self, servicer, current_server):
         pass
 
     @abstractmethod

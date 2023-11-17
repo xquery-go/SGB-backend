@@ -32,15 +32,14 @@ class RuntimeGRPCRegistry:
     The service class must be of Service class instance inherited from BaseAbstractService.
     """
     def __init__(self, service):
-        super().__init__()
-        self._service_class = import_string(service)
+        self._service_class = import_string(service)()
 
     @property
     def service_class(self):
         return self._service_class
 
     def register_to_server(self, server):
-        return self._service_class.get_add_servicer_method(self.service_class.servicer, server)
+        return self._service_class.get_add_servicer_method(server)
 
     # def service(
     #     self, handler_call_details: grpc.HandlerCallDetails
@@ -50,12 +49,16 @@ class RuntimeGRPCRegistry:
     #         details_method
     #     )
 
+    @property
+    def label(self):
+        return 'iam'
+
 
 class RegistryCollection:
     def __init__(self):
         self._registry = set()
 
-    def register(self, service):
+    def register(self, service: str):
         runtime_registry = RuntimeGRPCRegistry(service)
         return self._registry.add(runtime_registry)
 
@@ -68,7 +71,7 @@ class RegistryCollection:
         health_servicer.set('', HealthCheckResponse.SERVING)
 
         for service in self._registry:
-            service.register(server)
+            service.register_to_server(server)
             service_names.append(service.label)
             status = HealthCheckResponse.SERVING
             health_servicer.set(service.label, status)
