@@ -42,15 +42,16 @@ class Server:
         self.xds = xds
 
     def _server(self):
-        self.__server = server(
-            thread_pool=ThreadPoolExecutor(self.thread_pool,),
-            handlers=self.handler,
-            interceptors=self.interceptors,
-            options=self.options,
-            maximum_concurrent_rpcs=self.maximum_concurrent_rpcs,
-            compression=self.compression,
-            xds=self.xds,
-        )
+        if not self.__server:
+            self.__server = server(
+                thread_pool=ThreadPoolExecutor(self.thread_pool,),
+                handlers=self.handler,
+                interceptors=self.interceptors,
+                options=self.options,
+                maximum_concurrent_rpcs=self.maximum_concurrent_rpcs,
+                compression=self.compression,
+                xds=self.xds,
+            )
         return self.__server
 
     def add_port(self, port, insecure=True):

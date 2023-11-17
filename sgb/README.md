@@ -56,14 +56,14 @@ read by the application and the data can be used to predict the credit risk.
 <h3> Pending Tasks (Sprint2):- </h3> <br>
 ####################################<br>
 
-1. Configure Swagger and create api endpoints &emsp;&emsp; <b>DONE</b> <br>
-2. Create data analysis method for customer data. <br>
-3. Create bare bones for data analysis service.<br>
-4. Create schema for data reader service. <br>
-5. Create schema for data cleaning service. <br>
-6. Create schema for data analysis service.<br>
-7. Create FE for data reader service. <br>
-8. Create token based access <br>
-9. Configure and use asyncio in data cleaning service to obtain cleaned data asynchronously. <br>
-10. Create front end for customer application (service) <br>
+1. Configure Swagger and create api endpoints. <b> <span style="color:green"> DONE </span> </b> <br><br>
+2. Create Container for sgb service. <b> <span style="color:green"> DONE </span> </b> <br><br>
+3. Create bare bones for data analysis service.<b> <span style="color:red"> Not Started </span> </b><br><br>
+4. Create schema for data reader service. <b> <span style="color:red"> Not Started </span> </b><br><br>
+5. Create schema for data cleaning service. <b> <span style="color:red"> Not Started </span> </b><br><br>
+6. Create schema for data analysis service.<b> <span style="color:red"> Not Started </span> </b><br><br>
+7. Create FE for data reader service. <b> <span style="color:red"> Not Started </span> </b><br><br>
+8. Create token based access <b> <span style="color:red"> Not Started </span> </b><br><br>
+9. Configure and use asyncio in data cleaning service to obtain cleaned data asynchronously. <b> <span style="color:red"> Not Started </span> </b><br><br>
+10. Create front end for customer application (service) <b> <span style="color:red"> Not Started </span> </b><br><br>
 

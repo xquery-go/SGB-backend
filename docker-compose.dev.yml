@@ -18,6 +18,19 @@ services:
     ports:
       - '50051:50051'
 
+  sgb-service:
+    image: 'banking:latest'
+    tty: true
+    container_name: banking-sgb-service
+    volumes:
+      - ./sgb:/sgb
+    environment:
+      PYTHONWARNINGS: 'ignore'
+    restart: always
+    working_dir: /iam
+    ports:
+      - '50052:50052'
+
   iam:
     image: 'banking:latest'
     tty: true
