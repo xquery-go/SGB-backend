@@ -1,3 +1,6 @@
+from abc import ABC
+from abc import abstractmethod
+
 from grpc import server
 from concurrent.futures import ThreadPoolExecutor
 
@@ -19,13 +22,11 @@ from concurrent.futures import ThreadPoolExecutor
 
 class Server:
     __server = None
-    _port = None
-    _host = None
 
     def __init__(
             self,
             thread_pool=10,
-            handlers=None,
+            handler=None,
             interceptors=None,
             options=None,
             maximum_concurrent_rpcs=None,
@@ -33,7 +34,7 @@ class Server:
             xds=False,
     ):
         self.thread_pool = thread_pool
-        self.handlers = handlers
+        self.handler = handler
         self.interceptors = interceptors
         self.options = options
         self.maximum_concurrent_rpcs = maximum_concurrent_rpcs
@@ -43,7 +44,7 @@ class Server:
     def _server(self):
         self.__server = server(
             thread_pool=ThreadPoolExecutor(self.thread_pool,),
-            handlers=self.handlers,
+            handlers=self.handler,
             interceptors=self.interceptors,
             options=self.options,
             maximum_concurrent_rpcs=self.maximum_concurrent_rpcs,
@@ -54,10 +55,33 @@ class Server:
 
     def add_port(self, port, insecure=True):
         if insecure:
-            if not self._port:
-                self._port = port
-                self.__server.add_insecure_port(self._port)
+            self.__server.add_insecure_port(port)
+
+    def run(self, port):
+        self.handler.registry_collection(
+            self.__server,
+        )
+        self.add_port(port)
+        self.start_server()
 
     def start_server(self):
         self.__server.start()
         self.__server.wait_for_termination()
+
+
+class BaseAbstractService(ABC):
+    _servicer = None
+
+    @abstractmethod
+    def servicer(self):
+        pass
+
+    @abstractmethod
+    def get_add_servicer_method(self):
+        pass
+
+    @abstractmethod
+    def label(self):
+        pass
+
+

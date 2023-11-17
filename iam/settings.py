@@ -20,9 +20,9 @@ from core.messagbus.registry import RegistryCollection
 BASE_DIR = Path(__file__).resolve().parent
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 
-#GRPC registration
-handler = RegistryCollection()
-handler.register('users.User')
+# GRPC registration
+HANDLER = RegistryCollection()
+HANDLER.register('users.services.UserService')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
