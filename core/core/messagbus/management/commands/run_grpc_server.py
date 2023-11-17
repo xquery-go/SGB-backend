@@ -33,7 +33,6 @@ class Command(BaseCommand):
         print(f"Starting gRPC server at {options['address']}")
         handler = settings.HANDLER
         grpc_server_object = Server()
-        grpc_server_object._server()
         handler.registry_collection(grpc_server_object._server())
         grpc_server_object.run(f'{self.default_addr}:{self.default_port}')
 

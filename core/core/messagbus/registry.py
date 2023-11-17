@@ -41,14 +41,6 @@ class RuntimeGRPCRegistry:
     def register_to_server(self, server):
         return self._service_class.get_add_servicer_method(server)
 
-    # def service(
-    #     self, handler_call_details: grpc.HandlerCallDetails
-    # ) -> Optional[grpc.RpcMethodHandler]:
-    #     details_method = handler_call_details.method
-    #     return self._method_handlers.get(
-    #         details_method
-    #     )
-
     @property
     def label(self):
         return 'iam'
@@ -62,7 +54,7 @@ class RegistryCollection:
         runtime_registry = RuntimeGRPCRegistry(service)
         return self._registry.add(runtime_registry)
 
-    def registry_collection(self, server):
+    def registry_collection(self, server) -> None:
         service_names = [
             reflection.SERVICE_NAME,
             health.SERVICE_NAME,

@@ -33,10 +33,10 @@ class UserService(BaseAbstractService):
     def get_add_servicer_method(cls, server, servicer=None):
         return cls.grpc_module.add_UserServicer_to_server(cls.__servicer, server)
 
-    def servicer(self):
+    def servicer(self) -> Servicer:
         return self.__servicer
 
     @property
-    def label(self):
+    def label(self) -> str:
         return 'UserService'
 
