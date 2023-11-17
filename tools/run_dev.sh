@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
-sudo dockerd
+#sudo dockerd
+#sudo docker-compose -f docker-compose.dev.yml stop
 sudo docker-compose -f docker-compose.dev.yml down
-sudo docker-compose -f docker-compose.dev.yml build
-sudo docker-compose -f docker-compose.dev.yml up -d
+#sudo docker-compose -f docker-compose.dev.yml rm --force
+#sudo docker-compose -f docker-compose.dev.yml rmi --force
+sudo docker compose -f docker-compose.dev.yml -p banking up -d --remove-orphans --build
+#sudo docker-compose -f docker-compose.dev.yml up -d --remove-orphans --build
+
+# Below command used by pycharm to create a stable build
+#/usr/bin/docker compose -f /home/abhilash/Desktop/SelfProjects/SGB Credit Risk/aaa_codebase_2/docker-compose.dev.yml -p aaa_codebase_2 up -d

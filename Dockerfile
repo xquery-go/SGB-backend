@@ -1,15 +1,12 @@
-FROM python:3.10-slim-bullseye AS builder
+FROM python:3.10 AS build
 ENV PYTHONUNBUFFERED 1
-
-RUN apt-get update \
-    && pip install --no-cache-dir --upgrade pip
 
 WORKDIR /application
 
-COPY ./requirements.txt ../application
+ADD ./requirements.txt ../application
 
 RUN pip install -r requirements.txt
 
-COPY . /application
+ADD ./core ./core
 
-RUN pip install -e core/
+RUN pip install core/

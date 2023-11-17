@@ -15,19 +15,15 @@
 <u>Tasks in line</u> :
 </h5>
 
-1. I have to enable User login (from User model) as well as admin login (Auth.user model). <b>DONE</b>
+1. I have to enable User login (from User model) as well as admin login (Auth.user model). <b> <span style="color:green"> DONE </span> </b>
 <br><br>
 
-2. To create a token based authentication (bearer token). <b>DONE</b>
+2. To create a token based authentication (bearer token). <b> <span style="color:green"> DONE </span> </b>
 <br><br>
 
-3. Then will be containerising this whole project. <b>DONE</b>
+3. Then will be containerising this whole project. <b> <span style="color:green"> DONE </span> </b><br><br>
+4. To create refresh and access token and to register them on login. <b> <span style="color:green"> DONE </span> </b>
 <br><br>
-4. To create GRPC server and service reflection to use IAM authentication middleware for other microservice 
-<br><br>
- 
-
-
-
-
+5. To create GRPC server and service reflection for IAM  <b> <span style="color:yellow"> In progress </span> </b> <br><br>
+6. To create a middleware that pops token from the request, uses iam service's grpc service to verify token. <b> <span style="color:red"> Not Started </span> </b><br><br>
 </div>

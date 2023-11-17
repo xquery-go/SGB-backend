@@ -17,3 +17,14 @@ REST_FRAMEWORK = {
 
 IAM_SERVER_ADDRESS_FOR_GRPC = '0.0.0.0:8000'
 SOUTH_GERMAN_BANK_SERVER_ADDRESS_FOR_GRPC = '0.0.0.0:8001'
+
+MESSAGE_BUS_SETTINGS = {
+    "SERVERS": {
+        "iam": {
+            "address": "[::]:50051"
+        },
+        "sgb": {
+            "address": "[::]:50052"
+        }
+    }
+}

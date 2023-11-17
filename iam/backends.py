@@ -1,12 +1,6 @@
 from django.contrib.auth.backends import BaseBackend
-from rest_framework.exceptions import ValidationError as DRFValidationError
-from django.contrib.auth.models import User, Group
 
 from users.models import User as iam_user
-from django.contrib import admin
-
-admin.site.unregister(User)
-admin.site.unregister(Group)
 
 
 class CustomAuthBackend(BaseBackend):
