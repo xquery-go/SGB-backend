@@ -1,5 +1,8 @@
 from core.messagbus.server import BaseAbstractService
 from generated_grpc import User_pb2_grpc
+from generated_grpc import User_pb2
+from google.protobuf.json_format import MessageToDict, ParseDict
+
 # from users.models import User
 
 
@@ -13,13 +16,27 @@ class UserService(BaseAbstractService):
             return User.objects.all()
 
         def list(self, request, context):
-            yield self.get_queryset()
+            queryset = self.get_queryset()
+            for user_data in queryset:
+                data = {
+                    "UserId": user_data.UserId,
+                    "UserName": user_data.username,
+                    "EmailAddress": user_data.email,
+                }
+                yield ParseDict(data or {}, User_pb2.UserData())
 
         def retrieve(self, request, context):
             print(f'Retrieve Context {context}\n\n')
             print(f'Retrieve request {request}')
             queryset = self.get_queryset().filter(UserId=1).get()
-            return str(queryset)
+            data = {
+                "UserId": queryset.UserId,
+                "UserName": queryset.username,
+                "EmailAddress": queryset.email,
+            }
+            response = ParseDict(data, User_pb2.UserData())
+            print(f'response ::: \n {response}')
+            return response
 
         def authenticate_token(self, request, context):
             print(f'Retrieve Context {context}\n\n')

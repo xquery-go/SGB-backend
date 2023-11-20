@@ -70,6 +70,10 @@ class Server:
         self.__server.wait_for_termination()
 
 
+class ReflectionServer(Server):
+    pass
+
+
 class BaseAbstractService(ABC):
     _servicer = None
 
