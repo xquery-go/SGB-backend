@@ -8,6 +8,7 @@ from google.protobuf.json_format import MessageToDict, ParseDict
 
 class UserService(BaseAbstractService):
     grpc_module = User_pb2_grpc
+    pb2_module = User_pb2
 
     class Servicer(User_pb2_grpc.UserServicer):
 
@@ -55,5 +56,5 @@ class UserService(BaseAbstractService):
 
     @property
     def label(self) -> str:
-        return 'UserService'
+        return 'User'
 

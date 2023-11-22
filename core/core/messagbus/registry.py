@@ -22,6 +22,7 @@ from django.utils.module_loading import import_string
 from grpc_health.v1 import health_pb2_grpc, health
 from grpc_reflection.v1alpha import reflection
 from grpc_health.v1.health_pb2 import HealthCheckResponse
+from grpc_reflection.v1alpha.proto_reflection_descriptor_database import ProtoReflectionDescriptorDatabase
 
 # Write a mechanism such that when we install the app it should read the handlers registered,
 # and then those handlers should be collected and served
@@ -64,7 +65,10 @@ class RegistryCollection:
 
         for service in self._registry:
             service.register_to_server(server)
-            service_names.append(service.label)
+            service_name = service.service_class.label
+            service_names.append(
+                service.service_class.pb2_module.DESCRIPTOR.services_by_name[service_name].full_name
+            )
             status = HealthCheckResponse.SERVING
             health_servicer.set(service.label, status)
         health_pb2_grpc.add_HealthServicer_to_server(health_servicer, server)
