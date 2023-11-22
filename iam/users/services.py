@@ -1,6 +1,8 @@
 from core.messagbus.server import BaseAbstractService
 from generated_grpc import User_pb2_grpc
 from generated_grpc import User_pb2
+from generated_grpc import HelloWorld_pb2
+from generated_grpc import HelloWorld_pb2_grpc
 from google.protobuf.json_format import MessageToDict, ParseDict
 
 # from users.models import User
@@ -57,4 +59,50 @@ class UserService(BaseAbstractService):
     @property
     def label(self) -> str:
         return 'User'
+
+
+class GreetingService(BaseAbstractService):
+    grpc_module = HelloWorld_pb2_grpc
+    pb2_module = HelloWorld_pb2
+
+    class Servicer(grpc_module.GreeterServicer):
+
+        def personal(self, request, context):
+            reply = f'Your message was {request.message}, to that i would say Hello'
+            data = {
+                "ReturnGreeting": reply,
+            }
+            response = ParseDict(data, HelloWorld_pb2.HelloReply())
+            return response
+
+        # def parrot(self, request, context):
+        #     """Missing associated documentation comment in .proto file."""
+        #     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        #     context.set_details('Method not implemented!')
+        #     raise NotImplementedError('Method not implemented!')
+        #
+        # def chatty(self, request_iterator, context):
+        #     """Missing associated documentation comment in .proto file."""
+        #     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        #     context.set_details('Method not implemented!')
+        #     raise NotImplementedError('Method not implemented!')
+        #
+        # def bidirectional(self, request_iterator, context):
+        #     """Missing associated documentation comment in .proto file."""
+        #     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        #     context.set_details('Method not implemented!')
+        #     raise NotImplementedError('Method not implemented!')
+
+    __servicer = Servicer()
+
+    @classmethod
+    def get_add_servicer_method(cls, server, servicer=None):
+        return cls.grpc_module.add_GreeterServicer_to_server(cls.__servicer, server)
+
+    def servicer(self) -> Servicer:
+        return self.__servicer
+
+    @property
+    def label(self) -> str:
+        return 'Greeter'
 

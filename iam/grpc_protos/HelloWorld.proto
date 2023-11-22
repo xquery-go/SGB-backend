@@ -1,0 +1,16 @@
+syntax = 'proto3';
+
+service Greeter {
+  rpc personal (HelloRequest) returns (HelloReply) {}
+  rpc parrot (HelloRequest) returns (stream HelloReply) {}
+  rpc chatty (stream HelloRequest) returns (HelloReply) {}
+  rpc bidirectional (stream HelloRequest) returns (stream HelloReply) {}
+}
+
+message HelloRequest {
+  string Greeting = 1;
+}
+
+message HelloReply {
+  string ReturnGreeting = 1;
+}
