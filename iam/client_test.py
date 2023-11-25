@@ -31,7 +31,7 @@ class RegistryClient:
         return MessageToDict(response, preserving_proto_field_name=True)
 
 
-def run(request_message: str):
+def run(request_message='UserRetrieveRequest'):
     print("Will try to greet world ...")
     from grpc_reflection.v1alpha.reflection_pb2_grpc import ServerReflectionStub
     with grpc.insecure_channel("iam-service:50051") as channel:
@@ -39,80 +39,81 @@ def run(request_message: str):
         services = reflection_db.get_services()
         print(f"found services: {services}")
 
-        desc_pool = DescriptorPool(reflection_db)
-        desc_pool.FindMessageTypeByName(request_message)
-        servicer = desc_pool.FindFileContainingSymbol('User')
-        user_servicer = servicer.services_by_name['User']
-        method = user_servicer.methods_by_name['retrieve']
+        descriptor_pool = DescriptorPool(reflection_db)
+        request_desc = descriptor_pool.FindMessageTypeByName(request_message)
+        # servicer = desc_pool.FindFileContainingSymbol('User')
+        service_descriptor = descriptor_pool.FindServiceByName('User')
+        method_descriptor = descriptor_pool.FindMethodByName('User.retrieve')
+        # request_class = request_desc.GetPrototype(input_type)
+        request_class = MessageFactory(descriptor_pool).GetPrototype(request_desc)
+        response_desc = descriptor_pool.FindMessageTypeByName('UserData')
+        response_class = MessageFactory(descriptor_pool).GetPrototype(response_desc)
 
-        ipdb.set_trace()
-        requests = [MessageFactory(desc_pool).GetPrototype(request_desc)(UserId=1)]
-
-        reflection_stub = ServerReflectionStub(channel)
-        reflection_request = ServerReflectionRequest()
-        response = reflection_stub.ServerReflectionInfo((req for req in requests))
-        response.next()
         print('On it')
+        response = channel.unary_unary(
+            '/{}/{}'.format(service_descriptor.full_name, method_descriptor.name),
+            request_serializer=request_class.SerializeToString,
+            response_deserializer=response_class.FromString,
+        )(request_class(UserId=1), timeout=10)
+        print("Response:", response)
+        return response
+
+import grpc
+from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import descriptor_pb2
+from grpc_reflection.v1alpha import reflection_pb2_grpc
+from grpc_reflection.v1alpha import reflection_pb2
+from grpc_reflection.v1alpha import reflection
 
 
-
-################################################################
-def make_dynamic_grpc_call(server_address, service_name, method_name, request_data):
-    with grpc.insecure_channel(server_address) as channel:
+def run2():
+    with grpc.insecure_channel('iam-service:50051') as channel:
         # Create a reflection stub
         stub = reflection_pb2_grpc.ServerReflectionStub(channel)
 
-        # Use reflection to find the service descriptor
-        service_descriptor_response = stub.ServerReflectionInfo(
-            iter([ServerReflectionRequest(
-                list_services=service_name
+        # Get the file descriptor for the service
+        file_descriptor_response = stub.ServerReflectionInfo(
+            iter([reflection_pb2.ServerReflectionRequest(
+                file_containing_symbol='User',
             )])
         )
 
-        # Extract the service descriptor
+        # Get the file descriptor proto
         ipdb.set_trace()
-        service_descriptor = None
-        for r in service_descriptor_response:
-            if r.HasField('list_services_response'):
-                for service in r.list_services_response.service:
-                    if service.name == service_name:
-                        service_descriptor = service
-                        break
+        file_descriptor_proto = file_descriptor_response.next().SerializeToString()
 
-        if not service_descriptor:
-            print(f"Service '{service_name}' not found.")
-            return
+        # Create a descriptor pool and add the file descriptor proto
+        abcd = 1
+        if abcd == 1:
+            reflection_db = ProtoReflectionDescriptorDatabase(channel)
+            descriptor_pool = DescriptorPool(reflection_db)
+        else:
+            descriptor_pool = _symbol_database.Default()
 
-        file_containing_symbol = f"{service_name}/{method_name}"
-        ic(file_containing_symbol)
-        # Use reflection to find the method descriptor
-        method_descriptor_response = stub.ServerReflectionInfo(
-            iter([ServerReflectionRequest(
-                file_containing_symbol=file_containing_symbol
-            )])
-        )
-        ipdb.set_trace()
-        # Extract the method descriptor
-        method_descriptor = None
-        for r in method_descriptor_response:
-            if r.HasField('file_descriptor_response'):
-                method_descriptor = r.file_descriptor_response.service[0].method[0]
-                break
+        defg = 1
+        if defg == 2:
+            file_descriptor = descriptor_pb2.FileDescriptorProto.FromString(file_descriptor_proto.decode('cp1252')[0])
+            descriptor_pool.Add(file_descriptor)
+        else:
+            file_descriptor = file_descriptor_proto
 
-        if not method_descriptor:
-            print(f"Method '{method_name}' not found in service '{service_name}'.")
-            return
 
-        # Create a dynamic request message
-        request_class = method_descriptor.input_type
-        request = request_class(**request_data)
+        # Get the service descriptor
+        message_type = descriptor_pool.FindMessageTypeByName('User.retrieve')
+        service_descriptor = descriptor_pool.FindServiceByName('User')
 
-        # Make the gRPC call dynamically
-        method_full_name = f"/{service_name}/{method_name}"
-        call = channel.unary_unary(method_full_name)
-        response = call(request)
+        # Get the method descriptor
+        method_descriptor = service_descriptor.FindMethodByName('retrieve')
 
-        print(f"Response: {MessageToJson(response)}")
+        # Create a request message
+        request_class = descriptor_pool.GetPrototype(method_descriptor.input_type)
+        request_message = request_class(UserId=1)
 
-# Example usage
-# make_dynamic_grpc_call("your_grpc_server:50051", "YourService", "YourMethod", {"UserId": 1})
+        # Call the method
+        response = channel.unary_unary(
+            '/{}/{}'.format(service_descriptor.full_name, method_descriptor.name),
+            request_serializer=request_class.SerializeToString,
+            response_deserializer=descriptor_pool.GetPrototype(method_descriptor.output_type).FromString,
+        )(request_message)
+
+        print("Response:", response)

@@ -8,6 +8,12 @@ class ListRequest(_message.Message):
     __slots__ = []
     def __init__(self) -> None: ...
 
+class UserRetrieveRequest(_message.Message):
+    __slots__ = ["UserId"]
+    USERID_FIELD_NUMBER: _ClassVar[int]
+    UserId: int
+    def __init__(self, UserId: _Optional[int] = ...) -> None: ...
+
 class TokenVerificationRequest(_message.Message):
     __slots__ = ["Token"]
     TOKEN_FIELD_NUMBER: _ClassVar[int]
@@ -15,17 +21,11 @@ class TokenVerificationRequest(_message.Message):
     def __init__(self, Token: _Optional[str] = ...) -> None: ...
 
 class UserData(_message.Message):
-    __slots__ = ["EmailAddress", "UserId", "UserName"]
-    EMAILADDRESS_FIELD_NUMBER: _ClassVar[int]
-    EmailAddress: str
+    __slots__ = ["UserId", "UserName", "EmailAddress"]
     USERID_FIELD_NUMBER: _ClassVar[int]
     USERNAME_FIELD_NUMBER: _ClassVar[int]
+    EMAILADDRESS_FIELD_NUMBER: _ClassVar[int]
     UserId: int
     UserName: str
+    EmailAddress: str
     def __init__(self, UserId: _Optional[int] = ..., UserName: _Optional[str] = ..., EmailAddress: _Optional[str] = ...) -> None: ...
-
-class UserRetrieveRequest(_message.Message):
-    __slots__ = ["UserId"]
-    USERID_FIELD_NUMBER: _ClassVar[int]
-    UserId: int
-    def __init__(self, UserId: _Optional[int] = ...) -> None: ...

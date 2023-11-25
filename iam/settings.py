@@ -23,7 +23,7 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 # GRPC registration
 HANDLER = RegistryCollection()
 HANDLER.register('users.services.UserService')
-HANDLER.register('users.services.GreetingService')
+# HANDLER.register('users.services.GreetingService')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
