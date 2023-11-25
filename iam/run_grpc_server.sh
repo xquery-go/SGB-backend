@@ -1,0 +1,3 @@
+#!/usr/bin bash
+# currently to be handled at the docker compose file ...
+sudo python3 manage.py run_grpc_server  '[::]:50051'

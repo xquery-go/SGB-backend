@@ -22,7 +22,9 @@ Each instances of the server object will be served by a separate process (contai
 <br><br>
 2. Create handlers that will be used by the service to register the service. <b> <span style="color:green"> DONE </span> </b>
 <br><br>
-3. Create script for running gRPC server in the service container. <b> <span style="color:red"> Not Started </span> </b>
+3. Create script for running gRPC server in the service container. <b> <span style="color:green"> DONE </span> </b>
 <br><br>
-4. Create a client class for the gRPC server, which would be common for all micro services. <b> <span style="color:yellow"> In progress </span> </b> <br><br> 
+4. Create a client class for the gRPC server, which would be common for all micro services. <b> <span style="color:yellow"> In progress </span> </b>
 <br><br>
+5. Create reflection service such that there is no need for client to have generated code and the reflection service provides the same from reflection server and the request is formed at runtime. <b> <span style="color:yellow"> In progress </span> </b>
+

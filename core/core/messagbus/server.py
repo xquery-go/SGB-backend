@@ -4,6 +4,10 @@ from abc import abstractmethod
 from grpc import server
 from concurrent.futures import ThreadPoolExecutor
 
+from grpc_reflection.v1alpha import reflection
+from grpc_reflection.v1alpha.reflection_pb2_grpc import ServerReflectionServicer
+from grpc_reflection.v1alpha.reflection_pb2_grpc import ServerReflection
+
 # def serve():
 #     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
 #     your_proto_file_pb2_grpc.add_YourServiceServicer_to_server(YourService(), server)
@@ -59,15 +63,30 @@ class Server:
             self.__server.add_insecure_port(port)
 
     def run(self, port):
-        self.handler.registry_collection(
-            self.__server,
-        )
+        # self.handler.registry_collection(
+        #     self.__server,
+        # )
         self.add_port(port)
         self.start_server()
 
     def start_server(self):
         self.__server.start()
         self.__server.wait_for_termination()
+
+
+# class ReflectionServer(Server):
+#
+#     def append_reflection(self, **kwargs):
+#         SERVICE_NAMES = (
+#             helloworld_pb2.DESCRIPTOR.services_by_name["Greeter"].full_name,
+#             reflection.SERVICE_NAME,
+#         )
+#         reflection.enable_server_reflection(SERVICE_NAMES, server)
+#
+#     def run(self, port, **kwargs):
+#         self.append_reflection(**kwargs)
+#         return super().run(port)
+
 
 
 class BaseAbstractService(ABC):
@@ -78,11 +97,14 @@ class BaseAbstractService(ABC):
         pass
 
     @abstractmethod
-    def get_add_servicer_method(self):
+    def get_add_servicer_method(self, servicer, current_server):
         pass
 
     @abstractmethod
     def label(self):
+        """
+        This label should be same as in the proto file.
+        """
         pass
 
 

@@ -2,7 +2,7 @@
 
 #sudo dockerd
 #sudo docker-compose -f docker-compose.dev.yml stop
-sudo docker-compose -f docker-compose.dev.yml down
+sudo docker-compose -f docker-compose.dev.yml -p banking down
 #sudo docker-compose -f docker-compose.dev.yml rm --force
 #sudo docker-compose -f docker-compose.dev.yml rmi --force
 sudo docker compose -f docker-compose.dev.yml -p banking up -d --remove-orphans --build
