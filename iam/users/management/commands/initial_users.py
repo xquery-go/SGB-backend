@@ -8,6 +8,9 @@ class Command(RunserverCommand):
     USER_DATA = (
         ('admin.co', 'admin@admin.com', 'root'),
         ('naruto', 'naruto@cakes.com', 'root'),
+        ('iwabe', 'naruto@cakes.com', 'root'),
+        ('boruto', 'naruto@cakes.com', 'root'),
+        ('sarada', 'naruto@cakes.com', 'root'),
     )
 
     def handle(self, *args, **options):
@@ -15,7 +18,7 @@ class Command(RunserverCommand):
             username, email, password = user
             try:
                 User.objects.get(username=username)
-                self.stdout.write(self.style.SUCCESS('Superuser already exists.'))
+                self.stdout.write(self.style.WARNING('Superuser already exists.'))
             except User.DoesNotExist:
                 User.objects.create_superuser(username=username, email=email, password=password)
                 self.stdout.write(self.style.SUCCESS('Superuser created successfully.'))

@@ -28,8 +28,10 @@ class BaseModel(models.Model):
         abstract = True
 
 
-class BaseUserModel(BaseModel, AbstractBaseUser):
-
+class BaseAuthUserModel(BaseModel, AbstractBaseUser):
+    """
+    Do not use it other than for managing User objects for a microservice.
+    """
     is_staff = models.BooleanField(
         _("Is staff"),
     )
@@ -37,3 +39,12 @@ class BaseUserModel(BaseModel, AbstractBaseUser):
     class Meta:
         abstract = True
 
+
+class UserBusinessModel(BaseModel):
+    IAMUserId = models.BigIntegerField(
+        _('IAM User Id'),
+        unique=True,
+    )
+
+    class Meta:
+        abstract = True

@@ -1,11 +1,11 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from core.models import BaseUserModel
+from core.models import BaseAuthUserModel
 
 # Create your models here.
 
 
-class Visitor(BaseUserModel):
+class Visitor(BaseAuthUserModel):
     VisitorId = models.BigAutoField(
         _("id"),
         primary_key=True,

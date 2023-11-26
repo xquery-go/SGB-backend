@@ -1,19 +1,14 @@
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-# from jwt.exceptions import JWTDecodeError
 from rest_framework.exceptions import AuthenticationFailed
-
 from core import choices
-from core.models import BaseModel, BaseUserModel
+from core.models import BaseModel, BaseAuthUserModel
 from tokens.base_tokens import BaseRefreshToken, BaseAccessToken
 from users.manager import CustomUserManager
 
 
-# Create your models here.
-
-
-class User(BaseUserModel):
+class User(BaseAuthUserModel):
     UserId = models.BigAutoField(
         _('Id'),
         primary_key=True

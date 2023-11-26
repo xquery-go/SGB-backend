@@ -1,20 +1,8 @@
-from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, QueryDict
-from django.views.generic.base import TemplateView, RedirectView
-from django.views.decorators.csrf import csrf_protect
-
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from visitors import serializers, models
-
-# import datetime
-#
-# import pandas as pd
-# import numpy as np
-# Create your views here.
 
 
 class VisitorView(ModelViewSet):

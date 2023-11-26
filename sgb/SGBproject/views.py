@@ -1,11 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.contrib import messages
 from rest_framework.decorators import action
 
 from .forms import StaffSignupClass
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login, logout
 from core.generics import GenericModelMixin
 from django.contrib.auth import get_user_model
 from SGBproject import serializers
