@@ -20,6 +20,12 @@ class TokenVerificationRequest(_message.Message):
     Token: str
     def __init__(self, Token: _Optional[str] = ...) -> None: ...
 
+class TokenVerificationResponse(_message.Message):
+    __slots__ = ["IsValidToken"]
+    ISVALIDTOKEN_FIELD_NUMBER: _ClassVar[int]
+    IsValidToken: bool
+    def __init__(self, IsValidToken: bool = ...) -> None: ...
+
 class UserData(_message.Message):
     __slots__ = ["UserId", "UserName", "EmailAddress"]
     USERID_FIELD_NUMBER: _ClassVar[int]

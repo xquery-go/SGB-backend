@@ -27,7 +27,7 @@ class UserStub(object):
         self.authenticate_token = channel.unary_unary(
                 '/User/authenticate_token',
                 request_serializer=User__pb2.TokenVerificationRequest.SerializeToString,
-                response_deserializer=User__pb2.UserData.FromString,
+                response_deserializer=User__pb2.TokenVerificationResponse.FromString,
                 )
 
 
@@ -68,7 +68,7 @@ def add_UserServicer_to_server(servicer, server):
             'authenticate_token': grpc.unary_unary_rpc_method_handler(
                     servicer.authenticate_token,
                     request_deserializer=User__pb2.TokenVerificationRequest.FromString,
-                    response_serializer=User__pb2.UserData.SerializeToString,
+                    response_serializer=User__pb2.TokenVerificationResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -127,6 +127,6 @@ class User(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/User/authenticate_token',
             User__pb2.TokenVerificationRequest.SerializeToString,
-            User__pb2.UserData.FromString,
+            User__pb2.TokenVerificationResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -1,9 +1,9 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from core.models import BaseUserModel
+from core.models import UserBusinessModel, BaseModel
 
 
-class Customer(BaseUserModel):
+class Customer(UserBusinessModel):
     CustomerId = models.BigAutoField(
         _('Id'),
         primary_key=True,
@@ -50,7 +50,7 @@ class Customer(BaseUserModel):
         db_table = "Customer"
 
 
-class CustomerCreditRiskParameter(BaseUserModel):
+class CustomerCreditRiskParameter(BaseModel):
     """
     This model contains the values of customer credit risk parameters for existing customers and
      later on will contain the value for new customers
@@ -172,17 +172,17 @@ class CustomerCreditRiskParameter(BaseUserModel):
         blank=True,
     )
 
+    @property
     def credit_risk_status(self):
         if self.IsGoodCreditRisk:
             return "High Credit Risk"
-        elif not self.IsGoodCreditRisk:
+        elif self.IsGoodCreditRisk is False:
             return "Low Credit Risk"
-
-    def get_customer_id(self):
-        return self.Customer.pk
+        else:
+            return "Not Calculated"
 
     def __str__(self):
-        return f"{self.Customer} - {self.credit_risk_status()}"
+        return f"{self.Customer} - {self.credit_risk_status}"
 
     class Meta:
         verbose_name = _("Customer Parameter")

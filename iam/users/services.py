@@ -1,9 +1,10 @@
+from google.protobuf.json_format import ParseDict
+from icecream import ic
+
 from core.messagbus.server import BaseAbstractService
-from generated_grpc import User_pb2_grpc
 from generated_grpc import User_pb2
-# from generated_grpc import HelloWorld_pb2
-# from generated_grpc import HelloWorld_pb2_grpc
-from google.protobuf.json_format import MessageToDict, ParseDict
+from generated_grpc import User_pb2_grpc
+from django.contrib.auth import get_user_model
 
 # from users.models import User
 
@@ -13,10 +14,12 @@ class UserService(BaseAbstractService):
     pb2_module = User_pb2
 
     class Servicer(User_pb2_grpc.UserServicer):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.model = None
 
         def get_queryset(self):
-            from users.models import User
-            return User.objects.all()
+            return self.model.objects.all()
 
         def list(self, request, context):
             queryset = self.get_queryset()
@@ -42,10 +45,13 @@ class UserService(BaseAbstractService):
             return response
 
         def authenticate_token(self, request, context):
-            print(f'Retrieve Context {context}\n\n')
-            print(f'Retrieve request {request}')
-            queryset = self.get_queryset().filter(UserId=1)
-            return str(queryset)
+            if not self.model:
+                from users.models import User
+                setattr(self, 'model', User)
+
+            is_valid = self.model.is_token_valid(request.Token)
+            response = ParseDict({'IsValidToken': is_valid}, User_pb2.TokenVerificationResponse())
+            return response
 
     __servicer = Servicer()
 

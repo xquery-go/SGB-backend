@@ -106,7 +106,7 @@ DATABASES = {
 # Django Rest Framework settings (importing
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        'authentication.IAMJWTAuthentication',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'authentication.IAMJWTAuthentication',

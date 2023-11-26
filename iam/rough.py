@@ -6,7 +6,6 @@ from google.protobuf.descriptor_pool import DescriptorPool
 from google.protobuf.message_factory import MessageFactory
 from grpc_reflection.v1alpha.proto_reflection_descriptor_database import ProtoReflectionDescriptorDatabase
 
-
 GRPC_REFLECTION_INVOCATION_STRING = 'TokenVerificationRequest'
 channel = grpc.insecure_channel("iam-service:50051")
 reflection_db = ProtoReflectionDescriptorDatabase(channel)
@@ -29,22 +28,20 @@ token_validation_response = channel.unary_unary(
 
 class IAMTokenAuthenticate(MiddlewareMixin):
 
+    async_capable = False
+
     def process_request(self, request):
-        if not request.path.startswith('/admin/'):
-            print('Processing request for token authentication')
-            is_valid_token = self.validate_token(request)
-            print('Token is valid : {}'.format(is_valid_token))
-            if is_valid_token is True:
-                print('Token authentication successful')
-                pass
-            else:
-                print('Token authentication failed')
-                raise PermissionDenied('Token authentication failure')
+        print('Processing request for token authentication')
+        is_valid_token = self.validate_token(request)
+        if is_valid_token is True:
+            return request
+        else:
+            raise PermissionDenied('Token authentication failure')
 
     def validate_token(self, request):
         raw_token = request.headers.get('Authorization')
-        grpc_response = token_validation_response(request_class(Token=raw_token))
-        if grpc_response.IsValidToken:
+        grpc_response = token_validation_response(Token=raw_token)
+        if grpc_response:
             return True
         else:
             return False

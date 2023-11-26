@@ -1,4 +1,3 @@
-from rest_framework import permissions
 from rest_framework.decorators import action
 from core.generics import GenericModelMixin
 from customers import serializers as customer_serializers
@@ -13,11 +12,9 @@ class CustomerViewSet(GenericModelMixin):
     """
     queryset = customer_models.Customer.objects.all()
     serializer_class = customer_serializers.CustomerSerializer
-    permission_classes = [permissions.AllowAny]
 
     @action(
-        methods=['get', 'post',
-                 ],
+        methods=('get', 'post',),
         detail=True,
         serializer_class=customer_serializers.CustomerSerializer,
         url_path='customer_analysis',
