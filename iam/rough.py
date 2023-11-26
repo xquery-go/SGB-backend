@@ -40,7 +40,7 @@ class IAMTokenAuthenticate(MiddlewareMixin):
 
     def validate_token(self, request):
         raw_token = request.headers.get('Authorization')
-        grpc_response = token_validation_response(Token=request)
+        grpc_response = token_validation_response(Token=raw_token)
         if grpc_response:
             return True
         else:
