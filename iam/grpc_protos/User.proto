@@ -3,7 +3,7 @@ syntax = 'proto3';
 service User {
   rpc list (ListRequest) returns (stream UserData) {}
   rpc retrieve (UserRetrieveRequest) returns (UserData) {}
-  rpc authenticate_token (TokenVerificationRequest) returns (UserData) {}
+  rpc authenticate_token (TokenVerificationRequest) returns (TokenVerificationResponse) {}
 }
 
 message ListRequest {
@@ -15,6 +15,10 @@ message UserRetrieveRequest {
 
 message TokenVerificationRequest {
   string Token = 1;
+}
+
+message TokenVerificationResponse {
+  bool IsValidToken = 1;
 }
 
 message UserData {

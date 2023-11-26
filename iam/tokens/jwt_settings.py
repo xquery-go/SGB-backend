@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 USERSETTINGS = getattr(settings, 'SIMPLE_JWT', None)
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=55),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
@@ -24,7 +24,7 @@ SIMPLE_JWT = {
     "JWK_URL": None,
     "LEEWAY": 0,
     "AUTH_HEADER_TYPES": ("Bearer",),
-    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
+    "AUTH_HEADER_NAME": "AUTHORIZATION",
     "USER_ID_FIELD": "pk",
     "USER_ID_CLAIM": "UserId",
     "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",

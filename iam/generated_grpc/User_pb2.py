@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nUser.proto\"\r\n\x0bListRequest\"%\n\x13UserRetrieveRequest\x12\x0e\n\x06UserId\x18\x01 \x01(\x03\")\n\x18TokenVerificationRequest\x12\r\n\x05Token\x18\x01 \x01(\t\"B\n\x08UserData\x12\x0e\n\x06UserId\x18\x01 \x01(\x03\x12\x10\n\x08UserName\x18\x02 \x01(\t\x12\x14\n\x0c\x45mailAddress\x18\x03 \x01(\t2\x98\x01\n\x04User\x12#\n\x04list\x12\x0c.ListRequest\x1a\t.UserData\"\x00\x30\x01\x12-\n\x08retrieve\x12\x14.UserRetrieveRequest\x1a\t.UserData\"\x00\x12<\n\x12\x61uthenticate_token\x12\x19.TokenVerificationRequest\x1a\t.UserData\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nUser.proto\"\r\n\x0bListRequest\"%\n\x13UserRetrieveRequest\x12\x0e\n\x06UserId\x18\x01 \x01(\x03\")\n\x18TokenVerificationRequest\x12\r\n\x05Token\x18\x01 \x01(\t\"1\n\x19TokenVerificationResponse\x12\x14\n\x0cIsValidToken\x18\x01 \x01(\x08\"B\n\x08UserData\x12\x0e\n\x06UserId\x18\x01 \x01(\x03\x12\x10\n\x08UserName\x18\x02 \x01(\t\x12\x14\n\x0c\x45mailAddress\x18\x03 \x01(\t2\xa9\x01\n\x04User\x12#\n\x04list\x12\x0c.ListRequest\x1a\t.UserData\"\x00\x30\x01\x12-\n\x08retrieve\x12\x14.UserRetrieveRequest\x1a\t.UserData\"\x00\x12M\n\x12\x61uthenticate_token\x12\x19.TokenVerificationRequest\x1a\x1a.TokenVerificationResponse\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -26,8 +26,10 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _globals['_USERRETRIEVEREQUEST']._serialized_end=66
   _globals['_TOKENVERIFICATIONREQUEST']._serialized_start=68
   _globals['_TOKENVERIFICATIONREQUEST']._serialized_end=109
-  _globals['_USERDATA']._serialized_start=111
-  _globals['_USERDATA']._serialized_end=177
-  _globals['_USER']._serialized_start=180
-  _globals['_USER']._serialized_end=332
+  _globals['_TOKENVERIFICATIONRESPONSE']._serialized_start=111
+  _globals['_TOKENVERIFICATIONRESPONSE']._serialized_end=160
+  _globals['_USERDATA']._serialized_start=162
+  _globals['_USERDATA']._serialized_end=228
+  _globals['_USER']._serialized_start=231
+  _globals['_USER']._serialized_end=400
 # @@protoc_insertion_point(module_scope)
