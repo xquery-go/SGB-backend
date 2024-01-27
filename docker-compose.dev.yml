@@ -1,9 +1,5 @@
 version: '3.4'
 services:
-  banking:
-    image: 'banking:latest'
-    build: .
-    tty: true
 
   iam-service:
     image: 'banking:latest'
@@ -17,8 +13,8 @@ services:
     command: >
       bash -c "python3 manage.py run_grpc_server '[::]:50051'"
     working_dir: /iam
-    ports:
-      - '50051:50051'
+#    ports:
+#      - '50051:50051'
 
   sgb-service:
     image: 'banking:latest'
@@ -29,9 +25,9 @@ services:
     environment:
       PYTHONWARNINGS: 'ignore'
     restart: always
-    working_dir: /iam
-    ports:
-      - '50052:50052'
+    working_dir: /sgb
+#    ports:
+#      - '50052:50052'
 
   iam:
     image: 'banking:latest'
@@ -47,6 +43,7 @@ services:
     command: >
       bash -c "python manage.py makemigrations &&
                python manage.py migrate &&
+               python manage.py collectstatic --no-input --clear &&
                python manage.py runserver 0.0.0.0:8000"
     working_dir: /iam
     ports:
@@ -65,6 +62,7 @@ services:
     command: >
       bash -c "python manage.py makemigrations &&
                python manage.py migrate &&
+               python manage.py collectstatic --no-input --clear &&
                python manage.py runserver 0.0.0.0:8001"
     restart: always
     working_dir: /sgb

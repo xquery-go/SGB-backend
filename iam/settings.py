@@ -71,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'djangorestframework_camel_case.middleware.CamelCaseMiddleWare',
 ]
 
 ROOT_URLCONF = 'urls'
@@ -104,15 +105,31 @@ DATABASES = {
 }
 
 # Django Rest Framework settings (importing
+# from rest_framework.settings
+# from djangorestframework_camel_case.settings
 REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
+        'djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'djangorestframework_camel_case.parser.CamelCaseFormParser',
+        'djangorestframework_camel_case.parser.CamelCaseMultiPartParser',
+        'djangorestframework_camel_case.parser.CamelCaseJSONParser',
+    ],
     'DEFAULT_PERMISSION_CLASSES': (
-        'authentication.IAMJWTAuthentication',
+        'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'authentication.IAMJWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     )
 }
+
+# JSON_CAMEL_CASE={
+#     'RENDERER_CLASS':[],
+#     'PARSER_CLASS':[],
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -170,7 +187,7 @@ CORS_ALLOW_CREDENTIALS = True
 TOKEN_EXPIRATION_TIMEOUT = 60 * 60  # seconds for dev
 COOKIE_EXPIRATION_TIMEOUT = 300  # seconds
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=50),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,

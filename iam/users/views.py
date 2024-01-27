@@ -1,3 +1,5 @@
+from djangorestframework_camel_case.parser import CamelCaseFormParser, CamelCaseMultiPartParser, \
+    CamelCaseJSONParser
 from rest_framework import status as rest_status, permissions
 from rest_framework.decorators import action
 
@@ -33,7 +35,8 @@ class AuthView(GenericModelMixin):
         return ret
 
     @action(methods=['POST'], url_path='login',
-            detail=False,)
+            detail=False,
+            )
     def authenticate(self, request, *args, **kwargs):
         data = request.data
         username = str(data['username'])
