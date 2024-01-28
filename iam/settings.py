@@ -64,6 +64,7 @@ DEPENDENCY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
+    'rest_social_providers',
 ]
 GOOGLE_LOGIN_ENABLED = config('GOOGLE_LOGIN_ENABLED', default=False, cast=bool)
 
@@ -210,7 +211,10 @@ SIMPLE_JWT = {
     "USER_ID_FIELD": "pk",
     "USER_ID_CLAIM": "UserId",
 }
+
+# dj-rest-auth settings
 # from dj_rest_auth.app_settings import
+
 REST_AUTH = {
     'USE_JWT': True,
     'JWT_AUTH_HTTPONLY': False,
@@ -218,8 +222,8 @@ REST_AUTH = {
     'TOKEN_CREATOR': 'dj_rest_auth.utils.default_create_token',
 }
 
-SITE_ID = 1
-
+GOOGLE_CALLBACK_URL = config('GOOGLE_CALLBACK_URL',
+                             default='http://localhost:8000/accounts/google/login/callback/')
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -234,3 +238,5 @@ SOCIALACCOUNT_PROVIDERS = {
         'FETCH_USERINFO': True
     }
 }
+
+SITE_ID = 1
