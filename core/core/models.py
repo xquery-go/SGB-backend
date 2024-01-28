@@ -1,8 +1,7 @@
 
+from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from rest_framework import permissions
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 
 class BaseModel(models.Model):
@@ -34,6 +33,7 @@ class BaseAuthUserModel(BaseModel, AbstractBaseUser):
     """
     is_staff = models.BooleanField(
         _("Is staff"),
+        default=False
     )
 
     class Meta:

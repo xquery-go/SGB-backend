@@ -81,7 +81,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'djangorestframework_camel_case.middleware.CamelCaseMiddleWare',
     'allauth.account.middleware.AccountMiddleware',
 ]
 
@@ -177,13 +176,13 @@ COOKIE_EXPIRATION_TIMEOUT = 300  # seconds
 # from djangorestframework_camel_case.settings
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
-        'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
-        'djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer',
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
     ],
     'DEFAULT_PARSER_CLASSES': [
-        'djangorestframework_camel_case.parser.CamelCaseFormParser',
-        'djangorestframework_camel_case.parser.CamelCaseMultiPartParser',
-        'djangorestframework_camel_case.parser.CamelCaseJSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.JSONParser',
     ],
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -201,9 +200,12 @@ SIMPLE_JWT = {
     "USER_ID_FIELD": "pk",
     "USER_ID_CLAIM": "UserId",
 }
-
+# from dj_rest_auth.app_settings import
 REST_AUTH = {
     'USE_JWT': True,
+    'JWT_AUTH_HTTPONLY': False,
+    'TOKEN_MODEL': 'rest_framework.authtoken.models.Token',
+    'TOKEN_CREATOR': 'dj_rest_auth.utils.default_create_token',
 }
 
 SITE_ID = 1

@@ -38,9 +38,10 @@ admin.site.site_header = _('IAM')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.get_urls()), name='api'),
-    path('api/dj-rest-auth/', include('dj_rest_auth.urls')),
-    path('api/dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('api/o/', include('dj_rest_auth.urls')),
+    path('api/o/registration/', include('dj_rest_auth.registration.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
 
+# from dj_rest_auth.registration.urls import

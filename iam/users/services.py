@@ -1,10 +1,9 @@
 from google.protobuf.json_format import ParseDict
-from icecream import ic
 
 from core.messagbus.server import BaseAbstractService
 from generated_grpc import User_pb2
 from generated_grpc import User_pb2_grpc
-from django.contrib.auth import get_user_model
+
 
 # from users.models import User
 
