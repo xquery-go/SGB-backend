@@ -47,47 +47,6 @@ class User(BaseAuthUserModel):
 
     USERNAME_FIELD = 'username'
 
-    @classmethod
-    def authenticate(cls, username, password):
-        try:
-            USER = cls.objects.get(username=username)
-        except User.DoesNotExist:
-            raise AuthenticationFailed('Incorrect Credentials.')
-        if not USER.check_password(password):
-            raise AuthenticationFailed(' Please check your password')
-
-        refresh = BaseRefreshToken()
-
-        data = {}
-        user_token = refresh.for_user(USER)
-        data['refresh_token'] = str(user_token)  # Query is run to create a new refresh token
-        data['access_token'] = str(user_token.access_token)  # Query is run to create a new refresh token
-        data['user'] = USER
-        return data
-
-    @classmethod
-    def is_token_valid(cls, token):
-        """
-        Checks if a given token is valid for the user.
-        """
-
-        try:
-            result = cls.get_token_details(token)
-        except Exception:
-            result = None
-        if result:
-            return True
-        return False
-
-    @classmethod
-    def get_token_details(cls, token):
-        """
-        Use Wisely
-        """
-        obj = BaseAccessToken(token)
-        obj.verify()
-        return obj.payload
-
     def has_perm(self, perm, obj=None):
         return True
 
