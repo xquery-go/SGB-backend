@@ -2,7 +2,9 @@ version: '3.4'
 services:
 
   iam-service:
-    image: 'banking:latest'
+    image: 'banking:development'
+    build:
+      context: .
     tty: true
     container_name: banking-iam-service
     volumes:
@@ -17,7 +19,9 @@ services:
 #      - '50051:50051'
 
   sgb-service:
-    image: 'banking:latest'
+    image: 'banking:development'
+    build:
+      context: .
     tty: true
     container_name: banking-sgb-service
     volumes:
@@ -30,7 +34,9 @@ services:
 #      - '50052:50052'
 
   iam:
-    image: 'banking:latest'
+    image: 'banking:development'
+    build:
+      context: .
     tty: true
     container_name: banking-iam
     depends_on:
@@ -50,7 +56,9 @@ services:
       - '8000:8000'
 
   sgb:
-    image: 'banking:latest'
+    image: 'banking:development'
+    build:
+      context: .
     tty: true
     container_name: banking-sgb
     depends_on:

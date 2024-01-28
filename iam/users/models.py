@@ -4,7 +4,6 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework.exceptions import AuthenticationFailed
 from core import choices
 from core.models import BaseModel, BaseAuthUserModel
-from tokens.base_tokens import BaseRefreshToken, BaseAccessToken
 from users.manager import CustomUserManager
 
 

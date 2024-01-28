@@ -43,9 +43,11 @@ GROUPS_ALLOWED = (choices.UserGroup.ADMIN,
 
 # Application definition
 
-INSTALLED_APPS = [
+DEPENDENCY_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'rest_framework',
+    'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'corsheaders',
     'core.messagbus',
@@ -53,10 +55,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
-    'permissions',
-    'tokens',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
 ]
+
+USER_APPS = [
+    'users',
+]
+
+INSTALLED_APPS = DEPENDENCY_APPS + USER_APPS
 
 SUB_COMMANDS = ['initial_users',
                 ]
@@ -72,6 +82,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'djangorestframework_camel_case.middleware.CamelCaseMiddleWare',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'urls'
@@ -104,32 +115,6 @@ DATABASES = {
     }
 }
 
-# Django Rest Framework settings (importing
-# from rest_framework.settings
-# from djangorestframework_camel_case.settings
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [
-        'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
-        'djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer',
-    ],
-    'DEFAULT_PARSER_CLASSES': [
-        'djangorestframework_camel_case.parser.CamelCaseFormParser',
-        'djangorestframework_camel_case.parser.CamelCaseMultiPartParser',
-        'djangorestframework_camel_case.parser.CamelCaseJSONParser',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'authentication.IAMJWTAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    )
-}
-
-# JSON_CAMEL_CASE={
-#     'RENDERER_CLASS':[],
-#     'PARSER_CLASS':[],
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -186,26 +171,40 @@ CORS_ALLOW_CREDENTIALS = True
 
 TOKEN_EXPIRATION_TIMEOUT = 60 * 60  # seconds for dev
 COOKIE_EXPIRATION_TIMEOUT = 300  # seconds
+
+# Django Rest Framework settings (importing
+# from rest_framework.settings
+# from djangorestframework_camel_case.settings
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
+        'djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'djangorestframework_camel_case.parser.CamelCaseFormParser',
+        'djangorestframework_camel_case.parser.CamelCaseMultiPartParser',
+        'djangorestframework_camel_case.parser.CamelCaseJSONParser',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    )
+}
+
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=50),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=50),  # Keep this less than 5 min in a production environment
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": False,
-    "UPDATE_LAST_LOGIN": False,
-    "ALGORITHM": "HS256",
-    "SIGNING_KEY": SECRET_KEY,
-    "VERIFYING_KEY": "",
-    "AUDIENCE": None,
-    "ISSUER": None,
-    "JSON_ENCODER": None,
-    "JWK_URL": None,
-    "LEEWAY": 0,
+    "UPDATE_LAST_LOGIN": True,
     "AUTH_HEADER_TYPES": ("Bearer",),
-    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
     "USER_ID_FIELD": "pk",
     "USER_ID_CLAIM": "UserId",
-    "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
-    "AUTH_TOKEN_CLASSES": ("tokens.base_tokens.BaseAccessToken",),
-    "TOKEN_TYPE_CLAIM": "access",
-    "JTI_CLAIM": "jti",
 }
+
+REST_AUTH = {
+    'USE_JWT': True,
+}
+
+SITE_ID = 1
+
