@@ -9,8 +9,6 @@ services:
     container_name: banking-iam-service
     volumes:
       - ./iam:/iam
-    environment:
-      PYTHONWARNINGS: 'ignore'
     restart: always
     command: >
       bash -c "python3 manage.py run_grpc_server '[::]:50051'"
@@ -26,8 +24,6 @@ services:
     container_name: banking-sgb-service
     volumes:
       - ./sgb:/sgb
-    environment:
-      PYTHONWARNINGS: 'ignore'
     restart: always
     working_dir: /sgb
 #    ports:
@@ -43,8 +39,6 @@ services:
       - iam-service
     volumes:
       - ./iam:/iam
-    environment:
-      PYTHONWARNINGS: 'ignore'
     restart: always
     command: >
       bash -c "python manage.py makemigrations &&
@@ -63,10 +57,9 @@ services:
     container_name: banking-sgb
     depends_on:
       - iam-service
+      - sgb-service
     volumes:
       - ./sgb:/sgb
-    environment:
-      PYTHONWARNINGS: 'ignore'
     command: >
       bash -c "python manage.py makemigrations &&
                python manage.py migrate &&

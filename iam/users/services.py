@@ -4,7 +4,7 @@ from rest_framework_simplejwt.exceptions import TokenError
 from core.messagbus.server import BaseAbstractService
 from generated_grpc import User_pb2
 from generated_grpc import User_pb2_grpc
-from authentication import GRPCAuthentication
+
 
 # from users.models import User
 
@@ -45,6 +45,7 @@ class UserService(BaseAbstractService):
             return response
 
         def authenticate_token(self, request, context):
+            from authentication import GRPCAuthentication
             try:
                 is_valid = GRPCAuthentication(request.Token)
             except TokenError:

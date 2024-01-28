@@ -20,7 +20,8 @@ from decouple import config
 # Load environment variables from .env
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
-config_path = os.path.join(BASE_DIR, '.env')
+SECRET_KEY = 'django-insecure-=uc^wslzb%ckcek0%j#fa133av-77v-02m#eie^00!tj9zm_wb'
+
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 
 
@@ -31,19 +32,6 @@ HANDLER.register('users.services.UserService')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=uc^wslzb%ckcek0%j#fa133av-77v-02m#eie^00!tj9zm_wb'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ('*',)
-
-GROUPS_ALLOWED = (choices.UserGroup.ADMIN,
-                  choices.UserGroup.BANK_STAFF,
-                  choices.UserGroup.BANK_STAFF_MANAGER
-                  )
 
 # Application definition
 
@@ -66,8 +54,8 @@ DEPENDENCY_APPS = [
     'dj_rest_auth.registration',
     'rest_social_providers',
 ]
-GOOGLE_LOGIN_ENABLED = config('GOOGLE_LOGIN_ENABLED', default=False, cast=bool)
 
+GOOGLE_LOGIN_ENABLED = config('GOOGLE_LOGIN_ENABLED', default=False, cast=bool)
 if GOOGLE_LOGIN_ENABLED:
     DEPENDENCY_APPS.append('allauth.socialaccount.providers.google',)
 
@@ -76,6 +64,18 @@ USER_APPS = [
 ]
 
 INSTALLED_APPS = DEPENDENCY_APPS + USER_APPS
+
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = ('*',)
+
+GROUPS_ALLOWED = (choices.UserGroup.ADMIN,
+                  choices.UserGroup.BANK_STAFF,
+                  choices.UserGroup.BANK_STAFF_MANAGER
+                  )
+
 
 SUB_COMMANDS = ['initial_users',
                 ]
@@ -123,7 +123,7 @@ DATABASES = {
     }
 }
 
-
+# from django.core.exceptions import
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
