@@ -15,10 +15,14 @@ from pathlib import Path
 from core import choices
 from core.base_settings import *
 from core.messagbus.registry import RegistryCollection
+from decouple import config
 
+# Load environment variables from .env
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
+config_path = os.path.join(BASE_DIR, '.env')
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+
 
 # GRPC registration
 HANDLER = RegistryCollection()
@@ -61,6 +65,10 @@ DEPENDENCY_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth.registration',
 ]
+GOOGLE_LOGIN_ENABLED = config('GOOGLE_LOGIN_ENABLED', default=False, cast=bool)
+
+if GOOGLE_LOGIN_ENABLED:
+    DEPENDENCY_APPS.append('allauth.socialaccount.providers.google',)
 
 USER_APPS = [
     'users',
@@ -90,7 +98,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': False,
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -163,6 +171,8 @@ AUTH_USER_MODEL = 'users.User'
 # Add Custom authentications
 AUTHENTICATION_BACKENDS = [
     'backends.CustomAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -210,3 +220,17 @@ REST_AUTH = {
 
 SITE_ID = 1
 
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+        'FETCH_USERINFO': True
+    }
+}

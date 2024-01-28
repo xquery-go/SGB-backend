@@ -13,3 +13,5 @@ iam/.env
 *.log
 *.pot
 __pycache__/
+*/media
+*/static
