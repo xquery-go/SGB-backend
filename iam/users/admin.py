@@ -1,29 +1,15 @@
 
 from django.contrib import admin
 from django.contrib.admin import register
+from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 
 from users import models
 
 
 @register(models.User)
-class UserModelAdmin(admin.ModelAdmin):
+class UserAdmin(AuthUserAdmin):
     list_display = (
         'username',
-        'UserId',
-        'ActiveStatus',
+        'email',
+        'pk',
     )
-    readonly_fields = ('password',
-                       )
-    # inlines = [UserGroupModelAdmin]
-
-
-@register(models.Group)
-class GroupModelAdmin(admin.ModelAdmin):
-    list_display = (
-        'GroupId',
-        'Name',
-        'ActiveStatus',
-    )
-
-    # inlines = [UserGroupModelAdmin]
-

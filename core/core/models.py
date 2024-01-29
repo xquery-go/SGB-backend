@@ -1,50 +1,36 @@
 
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
 class BaseModel(models.Model):
-    CreatedBy = models.PositiveIntegerField(
+    created_at = models.DateTimeField(
+        _("Created at"),
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        _("Updated at"),
+        auto_now=True
+    )
+    created_by = models.PositiveBigIntegerField(
         _("Create by"),
         null=True,
         blank=True,
     )
-    CreationTime = models.DateTimeField(
-        _("Time of Creation"),
-        auto_now_add=True,
-    )
-    UpdatedOn = models.DateTimeField(
-        _("Updated on"),
-        auto_now=True
-    )
-    AccountId = models.IntegerField(
-        _('Account Id'),
-        default=1
+    updated_by = models.PositiveBigIntegerField(
+        _("Updated by"),
+        null=True,
+        blank=True,
     )
 
     class Meta:
         abstract = True
 
 
-class BaseAuthUserModel(BaseModel, AbstractBaseUser):
+class BaseAuthUserModel(BaseModel, AbstractUser):
     """
     Do not use it other than for managing User objects for a microservice.
     """
-    is_staff = models.BooleanField(
-        _("Is staff"),
-        default=False
-    )
-
-    class Meta:
-        abstract = True
-
-
-class UserBusinessModel(BaseModel):
-    IAMUserId = models.BigIntegerField(
-        _('IAM User Id'),
-        unique=True,
-    )
-
     class Meta:
         abstract = True
