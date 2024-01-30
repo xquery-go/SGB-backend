@@ -15,10 +15,15 @@ from pathlib import Path
 from core import choices
 from core.base_settings import *
 from core.messagbus.registry import RegistryCollection
+from decouple import config
 
+# Load environment variables from .env
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
+SECRET_KEY = 'django-insecure-=uc^wslzb%ckcek0%j#fa133av-77v-02m#eie^00!tj9zm_wb'
+
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+
 
 # GRPC registration
 HANDLER = RegistryCollection()
@@ -28,8 +33,38 @@ HANDLER.register('users.services.UserService')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=uc^wslzb%ckcek0%j#fa133av-77v-02m#eie^00!tj9zm_wb'
+# Application definition
+
+DEPENDENCY_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
+    'corsheaders',
+    'core.messagbus',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
+    'rest_social_providers',
+]
+
+GOOGLE_LOGIN_ENABLED = config('GOOGLE_LOGIN_ENABLED', default=False, cast=bool)
+if GOOGLE_LOGIN_ENABLED:
+    DEPENDENCY_APPS.append('allauth.socialaccount.providers.google',)
+
+USER_APPS = [
+    'users',
+]
+
+INSTALLED_APPS = DEPENDENCY_APPS + USER_APPS
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,22 +76,6 @@ GROUPS_ALLOWED = (choices.UserGroup.ADMIN,
                   choices.UserGroup.BANK_STAFF_MANAGER
                   )
 
-# Application definition
-
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'rest_framework_simplejwt',
-    'corsheaders',
-    'core.messagbus',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'users',
-    'permissions',
-    'tokens',
-]
 
 SUB_COMMANDS = ['initial_users',
                 ]
@@ -71,6 +90,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'urls'
@@ -79,7 +99,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': False,
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -103,17 +123,7 @@ DATABASES = {
     }
 }
 
-# Django Rest Framework settings (importing
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'authentication.IAMJWTAuthentication',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'authentication.IAMJWTAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    )
-}
-
+# from django.core.exceptions import
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -146,12 +156,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/')]
+STATIC_ROOT = config('STATIC_ROOT', default=os.path.join(BASE_DIR / 'static/'))
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/')]
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = config('MEDIA_ROOT', default=os.path.join(BASE_DIR / 'media/'))
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -162,6 +172,8 @@ AUTH_USER_MODEL = 'users.User'
 # Add Custom authentications
 AUTHENTICATION_BACKENDS = [
     'backends.CustomAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -169,26 +181,63 @@ CORS_ALLOW_CREDENTIALS = True
 
 TOKEN_EXPIRATION_TIMEOUT = 60 * 60  # seconds for dev
 COOKIE_EXPIRATION_TIMEOUT = 300  # seconds
+
+# Django Rest Framework settings (importing
+# from rest_framework.settings
+# from djangorestframework_camel_case.settings
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.JSONParser',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    )
+}
+
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=50),  # Keep this less than 5 min in a production environment
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": False,
-    "UPDATE_LAST_LOGIN": False,
-    "ALGORITHM": "HS256",
-    "SIGNING_KEY": SECRET_KEY,
-    "VERIFYING_KEY": "",
-    "AUDIENCE": None,
-    "ISSUER": None,
-    "JSON_ENCODER": None,
-    "JWK_URL": None,
-    "LEEWAY": 0,
+    "UPDATE_LAST_LOGIN": True,
     "AUTH_HEADER_TYPES": ("Bearer",),
-    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
     "USER_ID_FIELD": "pk",
     "USER_ID_CLAIM": "UserId",
-    "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
-    "AUTH_TOKEN_CLASSES": ("tokens.base_tokens.BaseAccessToken",),
-    "TOKEN_TYPE_CLAIM": "access",
-    "JTI_CLAIM": "jti",
 }
+
+# dj-rest-auth settings
+# from dj_rest_auth.app_settings import
+
+REST_AUTH = {
+    'USE_JWT': True,
+    'JWT_AUTH_HTTPONLY': False,
+    'TOKEN_MODEL': 'rest_framework.authtoken.models.Token',
+    'TOKEN_CREATOR': 'dj_rest_auth.utils.default_create_token',
+    'LOGIN_SERIALIZER': 'rest_social_providers.serializers.CustomLoginSerializer',
+}
+
+GOOGLE_CALLBACK_URL = config('GOOGLE_CALLBACK_URL',
+                             default='http://localhost:8000/accounts/google/login/callback/')
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+        'FETCH_USERINFO': True
+    }
+}
+
+SITE_ID = 1

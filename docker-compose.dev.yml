@@ -1,71 +1,68 @@
 version: '3.4'
 services:
-  banking:
-    image: 'banking:latest'
-    build: .
-    tty: true
 
   iam-service:
-    image: 'banking:latest'
+    image: 'banking:development'
+    build:
+      context: .
     tty: true
     container_name: banking-iam-service
     volumes:
       - ./iam:/iam
-    environment:
-      PYTHONWARNINGS: 'ignore'
     restart: always
     command: >
       bash -c "python3 manage.py run_grpc_server '[::]:50051'"
     working_dir: /iam
-    ports:
-      - '50051:50051'
 
   sgb-service:
-    image: 'banking:latest'
+    image: 'banking:development'
+    build:
+      context: .
     tty: true
     container_name: banking-sgb-service
     volumes:
       - ./sgb:/sgb
-    environment:
-      PYTHONWARNINGS: 'ignore'
     restart: always
-    working_dir: /iam
-    ports:
-      - '50052:50052'
+    working_dir: /sgb
 
   iam:
-    image: 'banking:latest'
+    image: 'banking:development'
+    build:
+      context: .
     tty: true
     container_name: banking-iam
     depends_on:
       - iam-service
     volumes:
       - ./iam:/iam
-    environment:
-      PYTHONWARNINGS: 'ignore'
+      - .data/iam/static:/var/www/static
     restart: always
     command: >
       bash -c "python manage.py makemigrations &&
                python manage.py migrate &&
-               python manage.py runserver 0.0.0.0:8000"
+               python manage.py collectstatic --no-input --clear &&
+               tail -f /dev/null"
     working_dir: /iam
     ports:
       - '8000:8000'
 
   sgb:
-    image: 'banking:latest'
+    image: 'banking:development'
+    build:
+      context: .
     tty: true
     container_name: banking-sgb
     depends_on:
       - iam-service
+      - sgb-service
     volumes:
       - ./sgb:/sgb
-    environment:
-      PYTHONWARNINGS: 'ignore'
+      - .data/sgb/static:/var/www/static`
     command: >
       bash -c "python manage.py makemigrations &&
                python manage.py migrate &&
-               python manage.py runserver 0.0.0.0:8001"
+               python manage.py collectstatic --no-input --clear &&
+               tail -f /dev/null"
     restart: always
     working_dir: /sgb
     ports:

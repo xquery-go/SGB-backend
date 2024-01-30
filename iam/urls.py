@@ -22,6 +22,7 @@ from django.utils.translation import gettext_lazy as _
 from routers import router
 
 import admin as django_admin_portal
+from rest_social_providers.views import GoogleLogin
 
 admin.site.login = django_admin_portal.CustomBackendLoginView.as_view(template_name='admin/SelfMade_Login.html')
 admin.site.site_header = _('IAM')
@@ -36,7 +37,13 @@ admin.site.site_header = _('IAM')
 # admin.site.register(admin_site._registry)
 
 urlpatterns = [
-    # path('admin/', admin_site.urls),
     path('admin/', admin.site.urls),
     path('api/', include(router.get_urls()), name='api'),
+    path('api/o/', include('dj_rest_auth.urls')),
+    path('api/o/registration/', include('dj_rest_auth.registration.urls')),
+    path('api/o/google/', GoogleLogin.as_view(), name='dj_google_login'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
+
+# from dj_rest_auth.registration.urls import

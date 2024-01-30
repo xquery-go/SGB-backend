@@ -2,6 +2,7 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.exceptions import InvalidToken
+from rest_framework_simplejwt.tokens import AccessToken
 
 
 class IAMJWTAuthentication(JWTAuthentication):
@@ -23,3 +24,8 @@ class IAMJWTAuthentication(JWTAuthentication):
 
     def has_permission(self, request, view):
         return True
+
+
+class GRPCAuthentication(AccessToken):
+    def __init__(self, token):
+        super().__init__(token=token)
