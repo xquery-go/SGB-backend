@@ -13,8 +13,6 @@ services:
     command: >
       bash -c "python3 manage.py run_grpc_server '[::]:50051'"
     working_dir: /iam
-#    ports:
-#      - '50051:50051'
 
   sgb-service:
     image: 'banking:development'
@@ -26,8 +24,6 @@ services:
       - ./sgb:/sgb
     restart: always
     working_dir: /sgb
-#    ports:
-#      - '50052:50052'
 
   iam:
     image: 'banking:development'
@@ -39,6 +35,7 @@ services:
       - iam-service
     volumes:
       - ./iam:/iam
+      - .data/iam/static:/var/www/static
     restart: always
     command: >
       bash -c "python manage.py makemigrations &&
@@ -60,6 +57,7 @@ services:
       - sgb-service
     volumes:
       - ./sgb:/sgb
+      - .data/sgb/static:/var/www/static`
     command: >
       bash -c "python manage.py makemigrations &&
                python manage.py migrate &&

@@ -4,36 +4,32 @@ from core.models import UserBusinessModel, BaseModel
 
 
 class Customer(UserBusinessModel):
-    CustomerId = models.BigAutoField(
-        _('Id'),
-        primary_key=True,
-    )
-    Name = models.CharField(
+    name = models.CharField(
         _("Name"),
         max_length=225,
         null=True,
         blank=True,
         default='',
     )
-    Telephone = models.CharField(
+    telephone = models.CharField(
         _("Phone number"),
         max_length=20,
         null=True,
         blank=True,
         default='',
     )
-    Email = models.EmailField(
+    email = models.EmailField(
         _("Email address"),
         max_length=250,
     )
-    SocialMediaLink = models.CharField(
+    social_media_link = models.CharField(
         _("Social media link"),
         max_length=155,
         null=True,
         blank=True,
         default='',
     )
-    HighestEducation = models.CharField(
+    highest_education = models.CharField(
         _("Highest education"),
         null=True,
         blank=True,
@@ -42,12 +38,12 @@ class Customer(UserBusinessModel):
     )
 
     def __str__(self):
-        return f"{self.Email}"
+        return f"{self.email}"
 
     class Meta:
-        verbose_name = _("Customer")
-        verbose_name_plural = _("Customers")
-        db_table = "Customer"
+        verbose_name = _("customer")
+        verbose_name_plural = _("customers")
+        db_table = "customer"
 
 
 class CustomerCreditRiskParameter(BaseModel):
@@ -55,118 +51,114 @@ class CustomerCreditRiskParameter(BaseModel):
     This model contains the values of customer credit risk parameters for existing customers and
      later on will contain the value for new customers
     """
-    CustomerCreditRiskParameterId = models.BigAutoField(
-        _("Id"),
-        primary_key=True,
-    )
-    Customer = models.ForeignKey(
+    customer = models.ForeignKey(
         'customers.Customer',
         on_delete=models.CASCADE,
-        related_name='CustomerCreditRiskParameters',
+        related_name='customer_credit_risk_parameters',
     )
-    IsGoodCreditRisk = models.BooleanField(
+    is_good_credit_risk = models.BooleanField(
         _("Is Good Credit Risk"),
         null=True,
         blank=True,
     )
-    Status = models.PositiveIntegerField(
+    status = models.PositiveIntegerField(
         _("Status of the debtor's checking account with the bank (categorical)"),
         null=True,
         blank=True,
     )
-    Duration = models.PositiveIntegerField(
+    duration = models.PositiveIntegerField(
         _("Credit duration in months (quantitative)"),
         null=True,
         blank=True,
     )
-    CreditHistory = models.PositiveIntegerField(
+    credit_history = models.PositiveIntegerField(
         _("History of compliance with previous or concurrent credit contracts (categorical)"),
         null=True,
         blank=True,
     )
-    Purpose = models.PositiveIntegerField(
+    purpose = models.PositiveIntegerField(
         _("Purpose for which the credit is needed (categorical)"),
         null=True,
         blank=True,
     )
-    Amount = models.PositiveIntegerField(
+    amount = models.PositiveIntegerField(
         _("Credit amount in DM (quantitative)"),
         null=True,
         blank=True,
     )
-    Savings = models.PositiveIntegerField(
+    savings = models.PositiveIntegerField(
         _("Debtor's savings (categorical)"),
         null=True,
         blank=True,
     )
-    EmploymentDuration = models.PositiveIntegerField(
+    employment_duration = models.PositiveIntegerField(
         _("Duration of debtor's employment with current employer (ordinal; discrete quantitative)"),
         null=True,
         blank=True,
     )
-    InstallmentRate = models.PositiveIntegerField(
+    installment_rate = models.PositiveIntegerField(
         _("Credit installments as a percentage of debtor's disposable income (ordinal; discrete quantitative)"),
         null=True,
         blank=True,
     )
-    PersonalStatusSex = models.PositiveIntegerField(
+    personal_status_sex = models.PositiveIntegerField(
         _("Combined information on sex and marital status; categorical"),
         null=True,
         blank=True,
     )
-    OtherDebtors = models.PositiveIntegerField(
+    other_debtors = models.PositiveIntegerField(
         _("Is there another debtor or a guarantor for the credit? (categorical)"),
         null=True,
         blank=True,
     )
-    PresentResidence = models.PositiveIntegerField(
+    present_residence = models.PositiveIntegerField(
         _("Length of time (in years) the debtor lives in the present residence (ordinal)"),
         null=True,
         blank=True,
     )
-    MostValuableProperty = models.PositiveIntegerField(
+    most_valuable_property = models.PositiveIntegerField(
         _("The debtor's most valuable property (choices)"),
         null=True,
         blank=True,
     )
-    Age = models.PositiveIntegerField(
+    age = models.PositiveIntegerField(
         _("Age in years (quantitative)"),
         null=True,
         blank=True,
     )
-    OtherInstallmentPlans = models.PositiveIntegerField(
+    other_installment_plans = models.PositiveIntegerField(
         _("Installment plans from providers other than the credit-giving bank (categorical)"),
         null=True,
         blank=True,
     )
-    Housing = models.PositiveIntegerField(
+    housing = models.PositiveIntegerField(
         _("Type of housing the debtor lives in (categorical)"),
         null=True,
         blank=True,
     )
-    NumberCredits = models.PositiveIntegerField(
+    number_credits = models.PositiveIntegerField(
         _("Number of credits including the current one the debtor has (or had) at this bank (ordinal, discrete"
           "quantitative)"),
         null=True,
         blank=True,
     )
-    Job = models.PositiveIntegerField(
+    job = models.PositiveIntegerField(
         _("Quality of debtor's job (ordinal)"),
         null=True,
         blank=True,
     )
-    PeopleLiable = models.PositiveIntegerField(
+    people_liable = models.PositiveIntegerField(
         _("Number of persons who financially depend on the debtor (i.e., are entitled to maintenance) "
           "(binary,discrete quantitative)"),
         null=True,
         blank=True,
     )
-    HasTelephone = models.BooleanField(
+    has_telephone = models.BooleanField(
         _("Is there a telephone landline registered on the debtor's name?"),
         null=True,
         blank=True,
     )
-    IsForeignWorker = models.PositiveIntegerField(
+    is_foreign_worker = models.PositiveIntegerField(
         _("Is the debtor a foreign worker?"),
         null=True,
         blank=True,
@@ -174,19 +166,19 @@ class CustomerCreditRiskParameter(BaseModel):
 
     @property
     def credit_risk_status(self):
-        if self.IsGoodCreditRisk:
+        if self.is_good_credit_risk:
             return "High Credit Risk"
-        elif self.IsGoodCreditRisk is False:
+        elif self.is_good_credit_risk is False:
             return "Low Credit Risk"
         else:
             return "Not Calculated"
 
     def __str__(self):
-        return f"{self.Customer} - {self.credit_risk_status}"
+        return f"{self.customer} - {self.credit_risk_status}"
 
     class Meta:
         verbose_name = _("Customer Parameter")
         verbose_name_plural = _("Customer Parameters")
-        db_table = "CustomerParameters"
+        db_table = "customer_parameters"
 
 

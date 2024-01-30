@@ -34,3 +34,14 @@ class BaseAuthUserModel(BaseModel, AbstractUser):
     """
     class Meta:
         abstract = True
+
+
+class UserBusinessModel(BaseModel):
+    user_id = models.PositiveBigIntegerField(
+        _("User ID"),
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        asbstract = True

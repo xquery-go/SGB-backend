@@ -15,3 +15,4 @@ iam/.env
 __pycache__/
 */media
 */static
+.data

@@ -2,10 +2,10 @@
 
 #sudo dockerd
 
-sudo docker-compose -f docker-compose.dev.yml down
-sudo docker-compose -f docker-compose.dev.yml rm --force
-sudo docker compose -f docker-compose.dev.yml build
-sudo docker compose -f docker-compose.dev.yml up -d --remove-orphans
+docker-compose -f docker-compose.dev.yml down
+docker-compose -f docker-compose.dev.yml rm --force
+docker-compose -f docker-compose.dev.yml build
+docker-compose -f docker-compose.dev.yml up -d --remove-orphans
 
 
 # Below command used by pycharm to create a stable build
