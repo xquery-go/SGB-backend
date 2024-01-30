@@ -44,4 +44,4 @@ class UserBusinessModel(BaseModel):
     )
 
     class Meta:
-        asbstract = True
+        abstract = True
