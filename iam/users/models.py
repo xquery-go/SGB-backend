@@ -2,7 +2,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator, RegexVa
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from core import choices
-from core.models import BaseModel, BaseAuthUserModel
+from core.models import BaseAuthUserModel
 
 
 class User(BaseAuthUserModel):

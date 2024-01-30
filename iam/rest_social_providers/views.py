@@ -12,9 +12,5 @@ class GoogleLogin(SocialLoginView):  # if you want to use Authorization Code Gra
 
     @transaction.atomic
     def post(self, request, *args, **kwargs):
-
         ret = super().post(request, *args, **kwargs)
-        import ipdb
-        ipdb.set_trace()
-
         return ret

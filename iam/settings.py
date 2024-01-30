@@ -220,6 +220,7 @@ REST_AUTH = {
     'JWT_AUTH_HTTPONLY': False,
     'TOKEN_MODEL': 'rest_framework.authtoken.models.Token',
     'TOKEN_CREATOR': 'dj_rest_auth.utils.default_create_token',
+    'LOGIN_SERIALIZER': 'rest_social_providers.serializers.CustomLoginSerializer',
 }
 
 GOOGLE_CALLBACK_URL = config('GOOGLE_CALLBACK_URL',
